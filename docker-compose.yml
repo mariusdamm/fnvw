@@ -1,0 +1,28 @@
+services:
+  fnvw-app:
+    image: 'fnvw-app:latest'
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: fnvw-app
+    depends_on:
+      - fnvw-db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://fnvw-db:5432/fnvw
+      - SPRING_DATASOURCE_USERNAME=sample-user
+      - SPRING_DATASOURCE_PASSWORD=sample-password
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    ports:
+      - '8080:8080'
+
+  fnvw-db:
+    image: postgres:15-alpine
+    container_name: fnvw-db
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=fnvw
+      - POSTGRES_USER=sample-user
+      - POSTGRES_PASSWORD=sample-password
+    ports:
+      - '5432:5432'
