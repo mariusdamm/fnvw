@@ -1,0 +1,25 @@
+services:
+  app-test:
+    image: 'fnvw-test:latest'
+    build:
+      context: .
+    container_name: app-test
+    depends_on:
+      - db-test
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db-test:5432/fnvw-test
+      - SPRING_DATASOURCE_USERNAME=sample-user
+      - SPRING_DATASOURCE_PASSWORD=sample-password
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    ports:
+      - '8081:8080'
+
+  db-test:
+    image: postgres:15-alpine
+    container_name: db-test
+    environment:
+      - POSTGRES_DB=fnvw-test
+      - POSTGRES_USER=sample-user
+      - POSTGRES_PASSWORD=sample-password
+    ports:
+      - '5433:5432'
