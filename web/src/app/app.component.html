@@ -1,0 +1,36 @@
+<header class="container-fluid py-2 border-bottom mb-2">
+  <div class="row align-items-center justify-content-end">
+
+    <div class="d-flex align-items-center col-auto me-auto">
+      <!-- Icon -->
+      <img class="p-1" ngSrc="assets/logo4.2.png" alt="BudgetBuddy Logo" id="logo"
+           style="max-height: 64px; width: auto" height="256" width="256" priority>
+
+      <!-- Nav -->
+      <ul *ngIf="isLoggedIn === true" class="nav" id="headerNav">
+        <li><a class="nav-link px-2 text-white" routerLink="/dashboard">Dashboard</a></li>
+        <li><a class="nav-link px-2 text-white" routerLink="/entries">Einträge</a></li>
+      </ul>
+    </div>
+
+    <div class="col-auto d-flex flex-row">
+
+      <div *ngIf="isLoggedIn === true" class="d-flex justify-content-between">
+        <app-help-modal></app-help-modal>
+        <div class="mx-1"></div>
+        <app-name-dropdown></app-name-dropdown>
+      </div>
+
+      <div *ngIf="isLoggedIn === false" class="d-flex justify-content-between">
+        <a type="button" class="btn btn-black" routerLink="/login">Login</a>
+        <div class="mx-1"></div>
+        <a type="button" class="btn btn-black" routerLink="/register">Registrieren</a>
+      </div>
+
+    </div>
+
+  </div>
+</header>
+
+<router-outlet></router-outlet>
+

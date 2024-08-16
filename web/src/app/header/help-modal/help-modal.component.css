@@ -1,0 +1,15 @@
+p {
+  text-align: justify;
+}
+
+i.inModal {
+  width: 1em;
+  height: 1em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+i::before.inModal {
+  display: inline-block;
+}

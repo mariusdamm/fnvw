@@ -1,0 +1,39 @@
+<div id="headerNameDropdown">
+  <div class="btn-group d-sm-none">
+    <button type="button" class="btn btn-black dropdown-toggle" data-bs-toggle="dropdown"
+            aria-expanded="false"></button>
+    <ul class="dropdown-menu dropdown-menu-end">
+      <li><span class="dropdown-item-text" id="dropdownNameText">{{ name }}</span></li>
+      <li>
+        <hr class="dropdown-divider">
+      </li>
+      <li><a routerLink="/settings" class="dropdown-item">Settings</a></li>
+      <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</a></li>
+    </ul>
+  </div>
+  <div class="btn-group d-none d-sm-block">
+    <button type="button" class="btn btn-black dropdown-toggle" data-bs-toggle="dropdown"
+            aria-expanded="false" id="usernameButton">{{ name }}
+    </button>
+    <ul class="dropdown-menu dropdown-menu-end">
+      <li><a routerLink="/settings" class="dropdown-item">Settings</a></li>
+      <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="modal fade" id="logoutModal" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="logoutLabel">Möchtest du dich ausloggen?</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-black" data-bs-dismiss="modal" (click)="logoutUser()">Logout</button>
+      </div>
+    </div>
+  </div>
+</div>

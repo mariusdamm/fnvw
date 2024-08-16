@@ -1,0 +1,118 @@
+<button type="button" class="btn btn-black tooltipbox" data-bs-toggle="modal" data-bs-target="#addMonthModal">
+  <span class="badge tooltiptext tooltiptext-left">Monat hinzufügen</span>
+  <i class="bi bi-calendar-plus"></i>
+</button>
+
+<div class="modal fade" id="addMonthModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="addMonthModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <form (ngSubmit)="fetchMonth($event)">
+
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="addMonthModalLabel">Neuen Monat hinzufügen</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="form-floating mb-2">
+            <select #monthModalYearSelect class="form-select" id="yearSelect_monthModal"
+                    aria-label="Floating label Year Select">
+              <option [value]="currentYear.toString()" selected>{{ currentYear }}</option>
+              <option [value]="prevYear.toString()">{{ prevYear }}</option>
+              <option [value]="prevPrevYear.toString()">{{ prevPrevYear }}</option>
+            </select>
+            <label for="yearSelect_monthModal">Jahr auswählen</label>
+          </div>
+
+          <div class="d-flex justify-content-center mb-1">
+            <div #monthModalMonthRadioGroup class="btn-group w-100" id="addMonthGroup" role="radiogroup"
+                 aria-label="Radio toggle button group entry month">
+              <div class="row">
+                <div class="col-3 col-sm-2 mb-1">
+                  <input type="radio" class="btn-check" name="addMonthRadio" id="addMonthButton_1"
+                         autocomplete="off" value="01">
+                  <label class="btn btn-outline-black w-100" for="addMonthButton_1">Jan</label>
+                </div>
+                <div class="col-3 col-sm-2 mb-1">
+                  <input type="radio" class="btn-check" name="addMonthRadio" id="addMonthButton_2"
+                         autocomplete="off" value="02">
+                  <label class="btn btn-outline-black w-100" for="addMonthButton_2">Feb</label>
+                </div>
+                <div class="col-3 col-sm-2 mb-1">
+                  <input type="radio" class="btn-check" name="addMonthRadio" id="addMonthButton_3"
+                         autocomplete="off" value="03">
+                  <label class="btn btn-outline-black w-100" for="addMonthButton_3">Mar</label>
+                </div>
+                <div class="col-3 col-sm-2 mb-1">
+                  <input type="radio" class="btn-check" name="addMonthRadio" id="addMonthButton_4"
+                         autocomplete="off" value="04">
+                  <label class="btn btn-outline-black w-100" for="addMonthButton_4">Apr</label>
+                </div>
+                <div class="col-3 col-sm-2 mb-1">
+                  <input type="radio" class="btn-check" name="addMonthRadio" id="addMonthButton_5"
+                         autocomplete="off" value="05">
+                  <label class="btn btn-outline-black w-100" for="addMonthButton_5">Mai</label>
+                </div>
+                <div class="col-3 col-sm-2 mb-1">
+                  <input type="radio" class="btn-check" name="addMonthRadio" id="addMonthButton_6"
+                         autocomplete="off" value="06">
+                  <label class="btn btn-outline-black w-100" for="addMonthButton_6">Jun</label>
+                </div>
+                <div class="col-3 col-sm-2 mb-1">
+                  <input type="radio" class="btn-check" name="addMonthRadio" id="addMonthButton_7"
+                         autocomplete="off" value="07">
+                  <label class="btn btn-outline-black w-100" for="addMonthButton_7">Jul</label>
+                </div>
+                <div class="col-3 col-sm-2 mb-1">
+                  <input type="radio" class="btn-check" name="addMonthRadio" id="addMonthButton_8"
+                         autocomplete="off" value="08">
+                  <label class="btn btn-outline-black w-100" for="addMonthButton_8">Aug</label>
+                </div>
+                <div class="col-3 col-sm-2 mb-1">
+                  <input type="radio" class="btn-check" name="addMonthRadio" id="addMonthButton_9"
+                         autocomplete="off" value="09">
+                  <label class="btn btn-outline-black w-100" for="addMonthButton_9">Sep</label>
+                </div>
+                <div class="col-3 col-sm-2 mb-1">
+                  <input type="radio" class="btn-check" name="addMonthRadio" id="addMonthButton_10"
+                         autocomplete="off" value="10">
+                  <label class="btn btn-outline-black w-100" for="addMonthButton_10">Okt</label>
+                </div>
+                <div class="col-3 col-sm-2 mb-1">
+                  <input type="radio" class="btn-check" name="addMonthRadio" id="addMonthButton_11"
+                         autocomplete="off" value="11">
+                  <label class="btn btn-outline-black w-100" for="addMonthButton_11">Nov</label>
+                </div>
+                <div class="col-3 col-sm-2 mb-1">
+                  <input type="radio" class="btn-check" name="addMonthRadio" id="addMonthButton_12"
+                         autocomplete="off" value="12">
+                  <label class="btn btn-outline-black w-100" for="addMonthButton_12">Dec</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-black">Monat hinzufügen</button>
+          <div class="collapse w-100" id="fetchMonthSuccessCollapse">
+            <div class="alert alert-success m-0" role="alert">
+              Monat erfolgreich hinzugefügt!
+            </div>
+          </div>
+          <div class="collapse w-100" id="fetchMonthWarningCollapse">
+            <div class="alert alert-warning m-0" role="alert">
+              Für diesen Monat existieren keine Einträge.
+            </div>
+          </div>
+          <div class="collapse w-100" id="fetchMonthDangerCollapse">
+            <div class="alert alert-danger m-0" role="alert">
+              Es ist etwas schiefgelaufen...
+            </div>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>

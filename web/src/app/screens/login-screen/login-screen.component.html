@@ -1,0 +1,31 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col">
+      <h1 class="text-center">Login</h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-6 col-lg-4 col-xxl-3 mx-auto justify-content-center">
+      <hr class="mt-0">
+      <form (ngSubmit)="loginUser($event)">
+        <div class="form-floating mb-2">
+          <input #usernameInput type="text" class="form-control" id="usernameLoginInput" autocomplete="on">
+          <label for="usernameLoginInput">Username</label>
+        </div>
+
+        <div class="form-floating mb-2">
+          <input #passwordInput type="password" class="form-control" id="passwordLoginInput" autocomplete="off">
+          <label for="passwordLoginInput">Password</label>
+        </div>
+
+        <button type="submit" class="btn btn-black mb-2 w-100">Login</button>
+
+        <div class="collapse" id="loginDangerCollapse">
+          <div class="alert alert-danger m-0 text-center" role="alert">
+            Beim Login ist etwas schiefgelaufen...
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,10 @@
+.icon-hidden::before {
+  max-width: 0;
+  visibility: hidden;
+  transition: max-width 0.5s ease, visibility 0.4s ease;
+}
+
+a:hover .icon-hidden::before {
+  max-width: 100px;
+  visibility: visible;
+}

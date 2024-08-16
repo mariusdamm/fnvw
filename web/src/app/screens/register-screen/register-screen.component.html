@@ -1,0 +1,37 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col">
+      <h1 class="text-center">Registrieren</h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-6 col-lg-4 col-xxl-3 mx-auto justify-content-center">
+      <hr class="mt-0">
+      <form (ngSubmit)="registerUser($event, 'nameRegisterInput',
+        'usernameRegisterInput', 'passwordRegisterInput')">
+          <div class="form-floating mb-2">
+            <input type="text" class="form-control" id="nameRegisterInput" autocomplete="on">
+            <label for="nameRegisterInput">Name</label>
+          </div>
+
+          <div class="form-floating mb-2">
+            <input type="text" class="form-control" id="usernameRegisterInput" autocomplete="on">
+            <label for="usernameRegisterInput">Username</label>
+          </div>
+
+          <div class="form-floating mb-2">
+            <input type="password" class="form-control" id="passwordRegisterInput" autocomplete="off">
+            <label for="passwordRegisterInput">Password</label>
+          </div>
+
+          <button type="submit" class="btn btn-black mb-2 w-100">Registrieren</button>
+
+          <div class="collapse w-100" id="registerDangerCollapse">
+            <div class="alert alert-danger m-0 text-center" role="alert">
+              Beim Registrieren ist ein Fehler aufgetreten...
+            </div>
+          </div>
+      </form>
+    </div>
+  </div>
+</div>

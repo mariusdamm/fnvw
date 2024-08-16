@@ -1,0 +1,67 @@
+<button type="button" class="btn btn-black tooltipbox" data-bs-toggle="modal" data-bs-target="#addEntryTypeModal">
+  <span class="badge tooltiptext tooltiptext-left">Kategorie hinzufügen</span>
+  <i class="bi bi-tag"></i>
+</button>
+
+<div class="modal fade" id="addEntryTypeModal" data-bs-backdrop="static" tabindex="-1"
+     aria-labelledby="addEntryTypeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <form (ngSubmit)="postEntrytype($event)">
+
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="addEntryTypeModalLabel">Kategorie erstellen</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body">
+          <div class="d-flex justify-content-center mb-2">
+            <div class="btn-group w-100" id="entryTypeIntakeGroup" role="radiogroup"
+                 aria-label="Radio toggle button group entry value">
+              <input #typeIntakeButton type="radio" class="btn-check" name="entryTypeIntakeRadio"
+                     id="entryTypeIntakeButton" autocomplete="off" value="true" (click)="loadEntryGroups()"
+                     (keydown)="loadEntryGroups()">
+              <label #typeIntakeLabel class="btn btn-outline-success" for="entryTypeIntakeButton">Einnahme</label>
+
+              <input #typeSpendingButton type="radio" class="btn-check" name="entryTypeIntakeRadio"
+                     id="entryTypeSpendingButton" autocomplete="off" value="false" (click)="loadEntryGroups()"
+                     (keydown)="loadEntryGroups()">
+              <label #typeSpendingLabel class="btn btn-outline-danger" for="entryTypeSpendingButton">Ausgabe</label>
+            </div>
+          </div>
+
+          <div class="form-floating mb-2">
+            <select #typeEntryGroupSelect class="form-select" id="entryGroupSelect_entryType"
+                    aria-label="Floating label EntryGroup">
+              <option value="" selected disabled>Bitte wählen</option>
+              <option *ngFor="let group of entryGroups" [value]="group.id">{{ group.name }}</option>
+            </select>
+            <label for="entryGroupSelect_entryType">Gruppe auswählen</label>
+          </div>
+
+          <div class="form-floating">
+            <input #typeNameInput type="text" class="form-control" id="entryTypeNameInput" autocomplete="off">
+            <label for="entryTypeNameInput">Name</label>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-black">Kategorie speichern</button>
+
+          <div class="collapse w-100" id="postTypeSuccessCollapse">
+            <div class="alert alert-success m-0" role="alert">
+              Kategorie erfolgreich erstellt!
+            </div>
+          </div>
+          <div class="collapse w-100" id="postTypeDangerCollapse">
+            <div class="alert alert-danger m-0" role="alert">
+              Es ist etwas schiefgelaufen...
+            </div>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
