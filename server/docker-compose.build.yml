@@ -2,7 +2,7 @@ services:
   fnvw-build-backend:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.build
     image: fnvw-build-backend:latest
     volumes:
       - ./target:/app/target
