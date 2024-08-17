@@ -13,3 +13,9 @@ This is the script for building the application. It first builds the frontend, t
 ## run.sh
 
 This script runs the project. It asks you whether you want to run the project in detached mode or not. Press _y_ for detached mode, and _n_ for running not in detached mode.
+
+## stop.sh
+
+This script stops the project if it's running. It makes use of the 
+docker compose down command.
+
