@@ -13,14 +13,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class TestAppUserService {
@@ -94,6 +95,40 @@ class TestAppUserService {
 
         entryOfUser1 = entryService.addEntry(entryDto1, testUser1);
         entryOfUser2 = entryService.addEntry(entryDto2, testUser2);
+    }
+
+    @Test
+    @Transactional
+    void test_get_user_by_valid_username() {
+        AppUser result = appUserService.getUserByUsername(testUser1.getUsername());
+
+        assertNotNull(result);
+        assertEquals(testUser1.getId(), result.getId());
+        assertEquals(testUser1.getName(), result.getName());
+        assertEquals(testUser1.getUsername(), result.getUsername());
+    }
+
+    @Test
+    @Transactional
+    void test_get_user_by_invalid_username() {
+        AppUser result = appUserService.getUserByUsername("hopefully not valid username");
+
+        assertNull(result);
+    }
+
+    @Test
+    @Transactional
+    void test_load_user_by_valid_username() {
+        UserDetails result = appUserService.loadUserByUsername(testUser1.getUsername());
+
+        assertNotNull(result);
+        assertEquals(testUser1.getUsername(), result.getUsername());
+    }
+
+    @Test
+    @Transactional
+    void test_load_user_by_invalid_username() {
+        assertThrows(UsernameNotFoundException.class, () -> appUserService.loadUserByUsername("hopefully not valid username"));
     }
 
     @Test
