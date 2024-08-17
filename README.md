@@ -16,3 +16,37 @@ To build the project you have to navigate into the _scripts_ directory and execu
 cd scripts/
 ./build.sh
 ```
+
+## Run the project
+
+To run the project you have to navigate into the _scripts_ directory and execute the _run.sh_ script.
+
+```bash
+cd scripts/
+./run.sh
+```
+
+## Stop the project
+
+### Running in detached mode
+
+To stop the project when running in detached mode, you can run the _stop.sh_ script. Therefore you have to be in the _scripts_ directory.
+
+```bash
+cd scripts/
+./stop.sh
+```
+
+### Not running in detached mode
+
+When not running in detached mode, you can just press _control + C_.
+
+## Common Issues
+
+### Permission denied while trying to connect to the Docker daemon socket
+
+The solution is to update the permissions of the Docker socket:
+
+```bash
+sudo chmod 666 /var/run/docker.sock
+```
