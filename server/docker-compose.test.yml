@@ -1,0 +1,30 @@
+services:
+  fnvw-app-test:
+    image: 'fnvw-app-test:latest'
+    build:
+      context: .
+      dockerfile: Dockerfile.test
+    container_name: fnvw-app-test
+    depends_on:
+      - fnvw-db-test
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://fnvw-db-test:5432/fnvw-test
+      - SPRING_DATASOURCE_USERNAME=sample-user
+      - SPRING_DATASOURCE_PASSWORD=sample-password
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    ports:
+      - '8081:8080'
+    restart: "no"
+
+  fnvw-db-test:
+    image: postgres:15-alpine
+    container_name: fnvw-db-test
+    environment:
+      - POSTGRES_DB=fnvw-test
+      - POSTGRES_USER=sample-user
+      - POSTGRES_PASSWORD=sample-password
+    ports:
+      - '5433:5432'
+    restart: "no"
+    stop_grace_period: 10s
+    
