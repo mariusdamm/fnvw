@@ -32,7 +32,8 @@ public class AppUserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return appUserRepository.findByUsername(username).orElseThrow();
+        return appUserRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("The username " +
+                username + " could not be found in the database"));
     }
 
     public AppUser getUserByUsername(String username) {
