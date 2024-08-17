@@ -32,34 +32,35 @@ public class AppUserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return appUserRepository.findByUsername(username).orElseThrow();
+        return appUserRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("The username " +
+                username + " could not be found in the database"));
     }
 
     public AppUser getUserByUsername(String username) {
         return appUserRepository.findByUsername(username).orElse(null);
     }
 
-    public boolean groupBelongsToUser(AppUser user, long id) throws DataNotFoundException {
-        EntryGroup group = entryGroupRepository.findById(id).orElse(null);
+    public boolean groupBelongsToUser(AppUser user, long groupId) throws DataNotFoundException {
+        EntryGroup group = entryGroupRepository.findById(groupId).orElse(null);
         if (group == null)
-            throw new DataNotFoundException("EntryGroup with ID " + id + " could not be found");
+            throw new DataNotFoundException("EntryGroup with ID " + groupId + " could not be found");
         return user.getUsername().equals(group.getOwner().getUsername());
     }
 
-    public boolean typeBelongsToUser(AppUser user, long id) throws DataNotFoundException {
-        EntryType type = entryTypeRepository.findById(id).orElse(null);
-        if(type == null)
-            throw new DataNotFoundException("EntryType with ID " + id + " could not be found");
+    public boolean typeBelongsToUser(AppUser user, long typeId) throws DataNotFoundException {
+        EntryType type = entryTypeRepository.findById(typeId).orElse(null);
+        if (type == null)
+            throw new DataNotFoundException("EntryType with ID " + typeId + " could not be found");
         EntryGroup group = entryGroupRepository.findById(type.getGroup().getId()).orElse(null);
         if (group == null)
             throw new DataNotFoundException("EntryGroup with ID " + type.getGroup().getId() + " could not be found");
         return groupBelongsToUser(user, group.getId());
     }
 
-    public boolean entryBelongsToUser(AppUser user, long id) throws DataNotFoundException {
-        Entry entry = entryRepository.findById(id).orElse(null);
+    public boolean entryBelongsToUser(AppUser user, long entryId) throws DataNotFoundException {
+        Entry entry = entryRepository.findById(entryId).orElse(null);
         if (entry == null)
-            throw new DataNotFoundException("Entry with ID " + id + " could not be found");
+            throw new DataNotFoundException("Entry with ID " + entryId + " could not be found");
         EntryType type = entryTypeRepository.findById(entry.getType().getId()).orElse(null);
         if (type == null)
             throw new DataNotFoundException("EntryType with ID " + entry.getType().getId() + " could not be found");
