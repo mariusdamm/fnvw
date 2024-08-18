@@ -1,4 +1,4 @@
-name: Java CI with Maven
+name: CI/CD Workflow
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
       - '**'
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
 
     services:
@@ -45,9 +45,11 @@ jobs:
         restore-keys: ${{ runner.os }}-maven
 
     - name: Install dependencies
+      working-directory: ./server/
       run: mvn install -DskipTests
 
     - name: Run tests
+      working-directory: ./server/
       env:
         SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/testdb
         SPRING_DATASOURCE_USERNAME: testuser
