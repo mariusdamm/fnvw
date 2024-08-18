@@ -4,7 +4,6 @@ import de.marius.fnvw.dto.LoginDto;
 import de.marius.fnvw.dto.LoginResponseDto;
 import de.marius.fnvw.dto.RegisterDto;
 import de.marius.fnvw.exception.ConstraintException;
-import de.marius.fnvw.exception.DataNotFoundException;
 import de.marius.fnvw.service.AuthenticationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,11 +57,8 @@ public class AuthenticationController {
             logger.warn("{} - Registration failed for username {} - Method: registerUser - Reason: Authentication failed - Action: return HttpStatus Unauthorized and data null", e.getMessage(), body.getUsername());
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         } catch (IllegalArgumentException e) {
-            logger.warn("{} - Registration failed for username {} - Method: registerUser - Reason: Name, Username and Password cannot be empty - Action: return HttpStatus Bad_Request and data null",e.getMessage(), body.getUsername());
+            logger.warn("{} - Registration failed for username {} - Method: registerUser - Reason: Name, Username and Password cannot be empty - Action: return HttpStatus Bad_Request and data null", e.getMessage(), body.getUsername());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        } catch (DataNotFoundException e) {
-            logger.error("{} - Registration failed for username {} - Method: registerUser - Reason: Required data (Role) not found - Action: return HttpStatus Internal_Server_Error and data null", e.getMessage(), body.getUsername());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         } catch (ConstraintException e) {
             logger.warn("{} - Registration failed for username {} - Method: registerUser - Reason: Constraint violation (username already exists) - Action: return HttpStatus Found and data null", e.getMessage(), body.getUsername());
             return ResponseEntity.status(HttpStatus.FOUND).body(null);
