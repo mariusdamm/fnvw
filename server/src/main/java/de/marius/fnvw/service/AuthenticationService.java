@@ -8,7 +8,6 @@ import de.marius.fnvw.dto.RegisterDto;
 import de.marius.fnvw.entity.AppUser;
 import de.marius.fnvw.entity.Role;
 import de.marius.fnvw.exception.ConstraintException;
-import de.marius.fnvw.exception.DataNotFoundException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -43,20 +42,16 @@ public class AuthenticationService {
         return new LoginResponseDto(token);
     }
 
-    public void registerUser(RegisterDto body) throws DataNotFoundException, ConstraintException {
+    public void registerUser(RegisterDto body) throws ConstraintException {
         if (body.getUsername().isBlank() || body.getPassword().isBlank() || body.getName().isBlank()) {
             throw new IllegalArgumentException("Username, password and name must not be empty");
         }
 
-        if(appUserRepository.findByUsername(body.getUsername()).isPresent()){
+        if (appUserRepository.findByUsername(body.getUsername()).isPresent()) {
             throw new ConstraintException("Username already taken");
         }
 
-        Role userRole = roleRepository.findByAuthority("USER").orElse(null);
-
-        if (userRole == null) {
-            throw new DataNotFoundException("User role not found");
-        }
+        Role userRole = roleRepository.findByAuthority("USER").orElseGet(() -> roleRepository.save(new Role("USER")));
 
         List<Role> roles = List.of(userRole);
         appUserRepository.save(new AppUser(
