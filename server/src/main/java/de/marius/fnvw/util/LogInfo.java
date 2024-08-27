@@ -13,7 +13,6 @@ public class LogInfo {
     public static String toJson(
             LogLevel logLevel,
             String place,
-            Date time,
             String issue,
             String reason,
             String action,
@@ -23,7 +22,7 @@ public class LogInfo {
         LoggingInformationHelper helper = new LoggingInformationHelper(
                 logLevel,
                 place,
-                time,
+                new Date(),
                 issue,
                 reason,
                 action,
