@@ -1,5 +1,6 @@
 package de.marius.fnvw.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import de.marius.fnvw.dto.EntryDto;
 import de.marius.fnvw.entity.AppUser;
 import de.marius.fnvw.entity.Entry;
@@ -8,6 +9,8 @@ import de.marius.fnvw.exception.ForbiddenDataException;
 import de.marius.fnvw.exception.MissingDataException;
 import de.marius.fnvw.service.AppUserService;
 import de.marius.fnvw.service.EntryService;
+import de.marius.fnvw.util.LogInfo;
+import de.marius.fnvw.util.LogLevel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -32,22 +35,22 @@ public class EntryController {
     }
 
     @PostMapping("")
-    public ResponseEntity<EntryDto> addEntry(@RequestBody EntryDto body) {
+    public ResponseEntity<EntryDto> addEntry(@RequestBody EntryDto body) throws JsonProcessingException {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        logger.debug("Username {} retrieved - Method: addEntry - Action: Getting username from the security context", username);
+        logger.debug(LogInfo.toJson(LogLevel.DEBUG, "EntryController.addEntry", "", "", "Username retrieved", username));
         AppUser user = appUserService.getUserByUsername(username);
         try {
             Entry entry = entryService.addEntry(body, user);
-            logger.info("Entry with id {} created - Method: addEntry - Action: return HttpStatus Created and data EntryDto of entry", entry.getId());
+            logger.info(LogInfo.toJson(LogLevel.INFO, "EntryController.addEntry", "", "", "Entry created with id " + entry.getId() + ". Return HttpStatus CREATED and data entry as EntryDto", username));
             return ResponseEntity.status(HttpStatus.CREATED).body(entry.toDto());
         } catch (DataNotFoundException e) {
-            logger.error("{} - User not found with username {} - Method: addEntry - Reason: The username does not exist in the database - Action: return HttpStatus Not_Found and data null", e.getMessage(), username);
+            logger.error(LogInfo.toJson(LogLevel.ERROR, "EntryController.addEntry", e.getMessage(), "The username / entrytype does not exist in the database", "Return HttpStatus NOT_FOUND and data null", username));
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         } catch (MissingDataException e) {
-            logger.warn("{} - The EntryDto is null - Method: addEntry - Action: return HttpStatus Bad_Request and data null", e.getMessage());
+            logger.warn(LogInfo.toJson(LogLevel.WARNING, "EntryController.addEntry", e.getMessage(), "No EntryDto was provided by the user", "Return HttpStatus BAD_REQUEST and data null", username));
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         } catch (ForbiddenDataException e) {
-            logger.warn("{} - The Entry does not belong to the user - Method: addEntry - Action: return HttpStatus Forbidden and data null", e.getMessage());
+            logger.warn(LogInfo.toJson(LogLevel.WARNING, "EntryController.addEntry", e.getMessage(), "The entrytype does not belong to the user", "Return HttpStatus FORBIDDEN and data null", username));
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
         }
     }
