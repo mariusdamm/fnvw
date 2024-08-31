@@ -1,6 +1,5 @@
 package de.marius.fnvw.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import de.marius.fnvw.dto.EntryDto;
 import de.marius.fnvw.entity.AppUser;
 import de.marius.fnvw.entity.Entry;
@@ -35,7 +34,7 @@ public class EntryController {
     }
 
     @PostMapping("")
-    public ResponseEntity<EntryDto> addEntry(@RequestBody EntryDto body) throws JsonProcessingException {
+    public ResponseEntity<EntryDto> addEntry(@RequestBody EntryDto body) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         logger.debug(LogInfo.toJson(LogLevel.DEBUG, "EntryController.addEntry", "", "", "Username retrieved", username));
         AppUser user = appUserService.getUserByUsername(username);

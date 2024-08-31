@@ -1,6 +1,5 @@
 package de.marius.fnvw.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import de.marius.fnvw.dto.LoginDto;
 import de.marius.fnvw.dto.LoginResponseDto;
 import de.marius.fnvw.dto.RegisterDto;
@@ -31,7 +30,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponseDto> loginUser(@RequestBody LoginDto body) throws JsonProcessingException {
+    public ResponseEntity<LoginResponseDto> loginUser(@RequestBody LoginDto body) {
         body.setUsername(body.getUsername().replaceAll("\\s", ""));
         body.setPassword(body.getPassword().replaceAll("\\s", ""));
         logger.info(LogInfo.toJson(LogLevel.INFO, "AuthenticationController.loginUser", "", "", "Attempting to login user", body.getUsername()));
@@ -46,7 +45,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<LoginResponseDto> registerUser(@RequestBody RegisterDto body) throws JsonProcessingException {
+    public ResponseEntity<LoginResponseDto> registerUser(@RequestBody RegisterDto body) {
         body.setUsername(body.getUsername().replaceAll("\\s", ""));
         body.setPassword(body.getPassword().replaceAll("\\s", ""));
         logger.info(LogInfo.toJson(LogLevel.INFO, "AuthenticationController.registerUser", "", "", "Attempting to register user", body.getUsername()));

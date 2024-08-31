@@ -1,6 +1,5 @@
 package de.marius.fnvw.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import de.marius.fnvw.dto.EntryGroupDto;
 import de.marius.fnvw.dto.MonthDto;
 import de.marius.fnvw.entity.AppUser;
@@ -33,7 +32,7 @@ public class EntryGroupController {
     }
 
     @PostMapping("")
-    public ResponseEntity<EntryGroupDto> createEntryGroup(@RequestBody EntryGroupDto body) throws JsonProcessingException {
+    public ResponseEntity<EntryGroupDto> createEntryGroup(@RequestBody EntryGroupDto body) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         logger.debug(LogInfo.toJson(LogLevel.DEBUG, "EntryGroupController.createEntryGroup", "", "", "Username retrieved", username));
         AppUser user = userService.getUserByUsername(username);
@@ -51,7 +50,7 @@ public class EntryGroupController {
     }
 
     @PutMapping("")
-    public ResponseEntity<EntryGroupDto> updateEntryGroup(@RequestBody EntryGroupDto body) throws JsonProcessingException {
+    public ResponseEntity<EntryGroupDto> updateEntryGroup(@RequestBody EntryGroupDto body) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         logger.debug(LogInfo.toJson(LogLevel.DEBUG, "EntryGroupController.updateEntryGroup", "", "", "Username retrieved", username));
         AppUser user = userService.getUserByUsername(username);
@@ -71,7 +70,7 @@ public class EntryGroupController {
     }
 
     @GetMapping("/{month}")
-    public ResponseEntity<MonthDto> getEntryGroupsOfUserInMonth(@PathVariable int month) throws JsonProcessingException {
+    public ResponseEntity<MonthDto> getEntryGroupsOfUserInMonth(@PathVariable int month) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         logger.debug(LogInfo.toJson(LogLevel.DEBUG, "EntryGroupController.getEntryGroupsOfUserInMonth", "", "", "Username retrieved", username));
         AppUser user = userService.getUserByUsername(username);
