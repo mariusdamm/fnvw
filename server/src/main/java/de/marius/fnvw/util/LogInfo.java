@@ -10,14 +10,7 @@ public class LogInfo {
     private LogInfo() {
     }
 
-    public static String toJson(
-            LogLevel logLevel,
-            String place,
-            String issue,
-            String reason,
-            String action,
-            String user
-    ) throws JsonProcessingException {
+    public static String toJson(LogLevel logLevel, String place, String issue, String reason, String action, String user) {
         ObjectMapper mapper = new ObjectMapper();
         LoggingInformationHelper helper = new LoggingInformationHelper(
                 logLevel,
@@ -28,7 +21,11 @@ public class LogInfo {
                 action,
                 user
         );
-        return mapper.writeValueAsString(helper);
+        try {
+            return mapper.writeValueAsString(helper);
+        } catch (JsonProcessingException e) {
+            return "!!!ERROR!!! JsonMapper threw JsonProcessingException: " + e.getMessage();
+        }
     }
 }
 
