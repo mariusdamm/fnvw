@@ -8,6 +8,7 @@ import de.marius.fnvw.dto.RegisterDto;
 import de.marius.fnvw.entity.AppUser;
 import de.marius.fnvw.entity.Role;
 import de.marius.fnvw.exception.ConstraintException;
+import de.marius.fnvw.exception.DataNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,9 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 class TestAuthenticationService {
 
+    private final String testUserUsername = "Test Username1";
+    private final String testUserPwd = "test_pwd1";
+    private final String testUserName = "Test User1";
     @Autowired
     private AppUserRepository appUserRepository;
     @Autowired
@@ -34,10 +38,6 @@ class TestAuthenticationService {
     private AuthenticationService authenticationService;
     @Autowired
     private TokenService tokenService;
-
-    private final String testUserUsername = "Test Username1";
-    private final String testUserPwd = "test_pwd1";
-    private final String testUserName = "Test User1";
 
     @BeforeEach
     @Transactional
@@ -57,7 +57,11 @@ class TestAuthenticationService {
 
         assertNotNull(result);
         assertNotNull(result.getToken());
-        assertEquals(testUserName, tokenService.getUserFromToken(result.getToken()).getName());
+        try {
+            assertEquals(testUserName, tokenService.getUserFromToken(result.getToken()).getName());
+        } catch (DataNotFoundException e) {
+            fail("DataNotFoundException thrown, where no exception should be thrown. " + e.getMessage());
+        }
     }
 
     @Test
@@ -98,7 +102,7 @@ class TestAuthenticationService {
         String testRegisterName = "RegisterName";
         RegisterDto dto = new RegisterDto(testUserUsername, testRegisterPwd, testRegisterName);
 
-        assertThrows(ConstraintException.class, () ->  authenticationService.registerUser(dto));
+        assertThrows(ConstraintException.class, () -> authenticationService.registerUser(dto));
     }
 
     @Test
@@ -108,6 +112,6 @@ class TestAuthenticationService {
         String testRegisterName = "RegisterName";
         RegisterDto dto = new RegisterDto("", testRegisterPwd, testRegisterName);
 
-        assertThrows(IllegalArgumentException.class, () ->  authenticationService.registerUser(dto));
+        assertThrows(IllegalArgumentException.class, () -> authenticationService.registerUser(dto));
     }
 }
