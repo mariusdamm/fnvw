@@ -2,6 +2,11 @@ package de.marius.fnvw.service;
 
 import de.marius.fnvw.dao.AppUserRepository;
 import de.marius.fnvw.entity.AppUser;
+import de.marius.fnvw.exception.DataNotFoundException;
+import de.marius.fnvw.util.LogInfo;
+import de.marius.fnvw.util.LogLevel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.jwt.*;
@@ -17,6 +22,7 @@ public class TokenService {
     private final JwtEncoder jwtEncoder;
     private final JwtDecoder jwtDecoder;
     private final AppUserRepository appUserRepository;
+    private final Logger logger = LoggerFactory.getLogger(TokenService.class);
 
     public TokenService(JwtEncoder jwtEncoder, JwtDecoder jwtDecoder, AppUserRepository appUserRepository) {
         this.jwtEncoder = jwtEncoder;
@@ -25,6 +31,7 @@ public class TokenService {
     }
 
     public String generateJwt(Authentication auth) {
+        logger.debug(LogInfo.toJson(LogLevel.DEBUG, "TokenService.generateJwt", "", "", "Generating JWT", auth.getName()));
         Instant now = Instant.now();
         Instant expired = now.plus(30, ChronoUnit.MINUTES);
 
@@ -33,32 +40,45 @@ public class TokenService {
         JwtClaimsSet claims = JwtClaimsSet.builder().issuer("self").issuedAt(now).subject(auth.getName())
                 .claim("roles", scope).expiresAt(expired).build();
 
-        return jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
+        String token = jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
+        logger.info(LogInfo.toJson(LogLevel.INFO, "TokenService.generateJwt", "", "", "JWT generated successfully", auth.getName()));
+        return token;
     }
 
     private String getUsernameFromToken(String token) {
+        logger.debug(LogInfo.toJson(LogLevel.DEBUG, "TokenService.getUsernameFromToken", "", "", "Extracting username from token", ""));
         try {
             token = token.substring(token.indexOf(" ") + 1);
             Jwt jwt = jwtDecoder.decode(token);
-            return jwt.getSubject();
+            String username = jwt.getSubject();
+            logger.info(LogInfo.toJson(LogLevel.INFO, "TokenService.getUsernameFromToken", "", "", "return username", username));
+            return username;
         } catch (JwtException e) {
-            e.printStackTrace();
+            logger.error(LogInfo.toJson(LogLevel.ERROR, "TokenService.getUsernameFromToken", "JwtException", e.getMessage(), "return empty string", ""));
             return "";
         }
     }
 
-    public AppUser getUserFromToken(String token) {
+    public AppUser getUserFromToken(String token) throws DataNotFoundException {
+        logger.debug(LogInfo.toJson(LogLevel.DEBUG, "TokenService.getUserFromToken", "", "", "Getting user from token", ""));
         String username = getUsernameFromToken(token);
-        return appUserRepository.findByUsername(username).orElse(null);
+        AppUser user = appUserRepository.findByUsername(username).orElseThrow(() -> {
+            logger.warn(LogInfo.toJson(LogLevel.WARNING, "TokenService.getUserFromToken", "User not found in the database", "There is no user with username " + username + " (gathered by TokenService.getUsernameFromToken)", "Throw DataNotFoundException", username));
+            return new DataNotFoundException("There is no user with username " + username + " in the database");
+        });
+        logger.info(LogInfo.toJson(LogLevel.INFO, "TokenService.getUserFromToken", "", "", "User retrieved from token", username));
+        return user;
     }
 
     public String getRolesFromToken(String token) {
+        logger.debug(LogInfo.toJson(LogLevel.DEBUG, "TokenService.getRolesFromToken", "", "", "Getting roles from token", ""));
         try {
             token = token.substring(token.indexOf(" ") + 1);
             Jwt jwt = jwtDecoder.decode(token);
+            logger.info(LogInfo.toJson(LogLevel.INFO, "TokenService.getRolesFromToken", "", "", "Roles retrieved from token", ""));
             return jwt.getClaim("roles");
         } catch (JwtException e) {
-            e.printStackTrace();
+            logger.error(LogInfo.toJson(LogLevel.ERROR, "TokenService.getRolesFromToken", "JwtException", e.getMessage(), "Exception caught while decoding token", ""));
             return null;
         }
     }

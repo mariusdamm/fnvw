@@ -5,6 +5,8 @@ import de.marius.fnvw.dto.LoginResponseDto;
 import de.marius.fnvw.dto.RegisterDto;
 import de.marius.fnvw.exception.ConstraintException;
 import de.marius.fnvw.service.AuthenticationService;
+import de.marius.fnvw.util.LogInfo;
+import de.marius.fnvw.util.LogLevel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -31,12 +33,13 @@ public class AuthenticationController {
     public ResponseEntity<LoginResponseDto> loginUser(@RequestBody LoginDto body) {
         body.setUsername(body.getUsername().replaceAll("\\s", ""));
         body.setPassword(body.getPassword().replaceAll("\\s", ""));
+        logger.info(LogInfo.toJson(LogLevel.INFO, "AuthenticationController.loginUser", "", "", "Attempting to login user", body.getUsername()));
         try {
             LoginResponseDto dto = authenticationService.loginUser(body);
-            logger.info("Login with username {} successful - Method: loginUser - Action: User successfully logged in and UserDto returned.", body.getUsername());
+            logger.info(LogInfo.toJson(LogLevel.INFO, "AuthenticationController.loginUser", "", "", "User successfully logged in and HttpStatus OK and data LoginResponseDto with JWT returned", body.getUsername()));
             return ResponseEntity.status(HttpStatus.OK).body(dto);
         } catch (AuthenticationException e) {
-            logger.warn("Login with username {} failed - Method: loginUser - Reason: The username or password is incorrect - Action: return HttpStatus Unauthorized and data null", body.getUsername());
+            logger.warn(LogInfo.toJson(LogLevel.WARNING, "AuthenticationController.loginUser", "Login with username " + body.getUsername() + " failed", "The username or password is incorrect", "Return HttpStatus UNAUTHORIZED and data null", body.getUsername()));
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
     }
@@ -45,22 +48,22 @@ public class AuthenticationController {
     public ResponseEntity<LoginResponseDto> registerUser(@RequestBody RegisterDto body) {
         body.setUsername(body.getUsername().replaceAll("\\s", ""));
         body.setPassword(body.getPassword().replaceAll("\\s", ""));
-        body.setName(body.getName().replaceAll("\\s", ""));
-        logger.info("Attempting to register user with username {} - Method: registerUser", body.getUsername());
+        logger.info(LogInfo.toJson(LogLevel.INFO, "AuthenticationController.registerUser", "", "", "Attempting to register user", body.getUsername()));
         try {
             authenticationService.registerUser(body);
+            logger.info(LogInfo.toJson(LogLevel.INFO, "AuthenticationController.registerUser", "", "", "successfully created user", body.getUsername()));
             LoginDto loginDto = new LoginDto(body.getUsername(), body.getPassword());
             LoginResponseDto dto = authenticationService.loginUser(loginDto);
-            logger.info("Registration and login with username {} successful - Method: registerUser - Action: return HttpStatus Ok and data UserDto of user", body.getUsername());
+            logger.info(LogInfo.toJson(LogLevel.INFO, "AuthenticationController.registerUser", "", "", "successfully logged in user. Return HttpStatus OK and data LoginResponseDto with JWT", body.getUsername()));
             return ResponseEntity.status(HttpStatus.OK).body(dto);
         } catch (AuthenticationException e) {
-            logger.warn("{} - Registration failed for username {} - Method: registerUser - Reason: Authentication failed - Action: return HttpStatus Unauthorized and data null", e.getMessage(), body.getUsername());
+            logger.warn(LogInfo.toJson(LogLevel.WARNING, "AuthenticationController.registerUser", "Could not login user", "AuthenticationException: Username or password is incorrect, although the user was just created with them", "Return HttpStatus UNAUTHORIZED and data null", body.getUsername()));
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         } catch (IllegalArgumentException e) {
-            logger.warn("{} - Registration failed for username {} - Method: registerUser - Reason: Name, Username and Password cannot be empty - Action: return HttpStatus Bad_Request and data null", e.getMessage(), body.getUsername());
+            logger.warn(LogInfo.toJson(LogLevel.WARNING, "AuthenticationController.registerUser", "Registration failed", "IllegalArgumentException: Name, username and password cannot be blank", "Return HttpStatus BAD_REQUEST and data null", body.getUsername()));
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         } catch (ConstraintException e) {
-            logger.warn("{} - Registration failed for username {} - Method: registerUser - Reason: Constraint violation (username already exists) - Action: return HttpStatus Found and data null", e.getMessage(), body.getUsername());
+            logger.warn(LogInfo.toJson(LogLevel.WARNING, "AuthenticationController.registerUser", "Registration failed", "ConstraintException: Username already exists", "Return HttpStatus FOUND and data null", body.getUsername()));
             return ResponseEntity.status(HttpStatus.FOUND).body(null);
         }
     }
