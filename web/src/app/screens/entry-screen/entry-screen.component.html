@@ -54,7 +54,7 @@
               <div class="collapse" [id]="'entryListTypeNO_' + type.id">
                 <div *ngFor="let entry of type.entries">
                   <div class="d-flex justify-content-between align-items-center">
-                    <span>{{ entry.name }}</span>
+                    <span class="text-secondary">{{ entry.name }}</span>
                     <span class="badge"> {{ (entry.value / 100).toFixed(2) }}€ </span>
                   </div>
                 </div>
@@ -99,7 +99,7 @@
               <div class="collapse" [id]="'entryListTypeNO_' + type.id">
                 <div *ngFor="let entry of type.entries">
                   <div class="d-flex justify-content-between align-items-center">
-                    <span>{{ entry.name }}</span>
+                    <span class="text-secondary">{{ entry.name }}</span>
                     <span class="badge"> {{ (entry.value / 100).toFixed(2) }}€ </span>
                   </div>
                 </div>
