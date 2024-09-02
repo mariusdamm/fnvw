@@ -33,7 +33,7 @@
     </div>
 
     <div class="row rounded border-start border-5 border-end border-success mx-0">
-      <div *ngFor="let group of month.intakeGroups"
+      <div *ngFor="let group of month.intakeGroups" class="mb-2"
            [class]="getColClassesForCardsOnEntryScreen(month.intakeGroups.length)">
 
         <div class="card border border-black">
@@ -77,7 +77,7 @@
     <div class="mb-3"></div>
 
     <div class="row rounded border-start border-5 border-end border-danger mx-0">
-      <div *ngFor="let group of month.spendingGroups"
+      <div *ngFor="let group of month.spendingGroups" class="mb-2"
            [class]="getColClassesForCardsOnEntryScreen(month.spendingGroups.length)">
 
         <div class="card border border-black">
