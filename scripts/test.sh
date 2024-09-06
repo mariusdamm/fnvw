@@ -1,5 +1,5 @@
 #!/bin/bash
-sudo docker compose -f ../server/docker-compose.test.yml up --build -d
-sudo docker logs -f fnvw-app-test
-sudo docker wait fnvw-app-test
-sudo docker compose -f ../server/docker-compose.test.yml down
+docker compose -f ../server/docker-compose.test.yml up --build -d
+docker logs -f fnvw-app-test
+docker wait fnvw-app-test
+docker compose -f ../server/docker-compose.test.yml down
