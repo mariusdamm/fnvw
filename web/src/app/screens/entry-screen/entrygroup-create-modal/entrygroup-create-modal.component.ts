@@ -1,9 +1,9 @@
 import {Component, ElementRef, ViewChild} from '@angular/core';
-import {UtilService} from "../../services/util.service";
-import {AxiosService} from "../../services/axios.service";
-import {AuthService} from "../../services/auth.service";
-import {EntrygroupCreateDto} from "../../dtos/entrygroup-create-dto";
-import {MonthProviderService} from "../../services/month-provider.service";
+import {UtilService} from "../../../services/util.service";
+import {AxiosService} from "../../../services/axios.service";
+import {AuthService} from "../../../services/auth.service";
+import {EntrygroupCreateDto} from "../../../dtos/entrygroup-create-dto";
+import {MonthProviderService} from "../../../services/month-provider.service";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NgForOf} from "@angular/common";
 

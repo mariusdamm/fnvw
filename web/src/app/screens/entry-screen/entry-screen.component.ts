@@ -9,7 +9,7 @@ import {Subscription} from "rxjs";
 import {MonthProviderService} from "../../services/month-provider.service";
 import {
   EntrygroupCreateModalComponent
-} from "../../plus-button/entrygroup-create-modal/entrygroup-create-modal.component";
+} from "./entrygroup-create-modal/entrygroup-create-modal.component";
 
 @Component({
   selector: 'app-entry-screen',
