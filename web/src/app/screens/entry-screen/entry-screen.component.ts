@@ -7,6 +7,9 @@ import {UtilService} from "../../services/util.service";
 import {PlusButtonComponent} from "../../plus-button/plus-button.component";
 import {Subscription} from "rxjs";
 import {MonthProviderService} from "../../services/month-provider.service";
+import {
+  EntrygroupCreateModalComponent
+} from "../../plus-button/entrygroup-create-modal/entrygroup-create-modal.component";
 
 @Component({
   selector: 'app-entry-screen',
@@ -14,7 +17,8 @@ import {MonthProviderService} from "../../services/month-provider.service";
   imports: [
     NgForOf,
     NgIf,
-    PlusButtonComponent
+    PlusButtonComponent,
+    EntrygroupCreateModalComponent
   ],
   templateUrl: './entry-screen.component.html',
   styleUrl: './entry-screen.component.css'
@@ -64,13 +68,14 @@ export class EntryScreenComponent implements OnInit, OnDestroy {
     ).then(response => {
       return response.data;
     }).then(month => {
-      if (month === null)
-        throw new Error('Month is null. An Error happened');
-
-      this.monthProviderService.addMonth(month);
+      if (month !== null)
+        this.monthProviderService.addMonth(month);
     }).catch(error => {
       if (error.response.status === 401)
         this.authService.deleteJwtToken();
+      else if (error.response.status === 404) {
+        this.monthProviderService.addMonth(new MonthDto(year+month));
+      }
     });
   }
 
