@@ -5,6 +5,7 @@ import {AuthService} from "../../services/auth.service";
 import {EntrygroupCreateDto} from "../../dtos/entrygroup-create-dto";
 import {MonthProviderService} from "../../services/month-provider.service";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {NgForOf} from "@angular/common";
 
 declare let bootstrap: any;
 
@@ -13,7 +14,8 @@ declare let bootstrap: any;
   standalone: true,
   imports: [
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    NgForOf
   ],
   templateUrl: './entrygroup-create-modal.component.html',
   styleUrl: './entrygroup-create-modal.component.css'
