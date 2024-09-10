@@ -79,20 +79,6 @@ export class EntryScreenComponent implements OnInit, OnDestroy {
     });
   }
 
-  getColClassesForCardsOnEntryScreen(length: number): string {
-    let colClasses: string[] = [];
-    if (length === 1) {
-      colClasses = ['col'];
-    } else if (length === 2) {
-      colClasses = ['col-sm-6'];
-    } else if (length === 3) {
-      colClasses = ['col-sm-6', 'col-lg-4'];
-    } else if (length > 3) {
-      colClasses = ['col-sm-6', 'col-lg-4', 'col-xxl-3'];
-    }
-    return colClasses.join(' ');
-  }
-
   protected readonly parseInt = parseInt;
   protected readonly parseFloat = parseFloat;
 }
