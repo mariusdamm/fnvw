@@ -74,9 +74,17 @@ export class EntryScreenComponent implements OnInit, OnDestroy {
       if (error.response.status === 401)
         this.authService.deleteJwtToken();
       else if (error.response.status === 404) {
-        this.monthProviderService.addMonth(new MonthDto(year+month));
+        this.monthProviderService.addMonth(new MonthDto(year + month));
       }
     });
+  }
+
+  getDiffBadgeClass(month: MonthDto): string {
+    return parseInt(
+      (this.utilService.calcSumOfAllGroups(month.intakeGroups) / 100).toFixed(2)
+    ) - parseInt(
+      (this.utilService.calcSumOfAllGroups(month.spendingGroups) / 100).toFixed(2)
+    ) < 0.00 ? 'text-bg-danger' : 'text-bg-success';
   }
 
   protected readonly parseInt = parseInt;
