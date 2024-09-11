@@ -16,11 +16,11 @@
     </span>
 
     <div class="row rounded border-start border-5 border-end border-success mx-0">
-      <div class="mb-2 d-flex justify-content-end">
+      <div class="d-flex justify-content-end">
         <app-entrygroup-create-modal [isIntake]="true" [monthstring]="wholeMonthString">
         </app-entrygroup-create-modal>
       </div>
-      <div *ngFor="let group of month.intakeGroups" class="mb-2 mb-2 col-sm-6 col-md-4 col-xl-3">
+      <div *ngFor="let group of month.intakeGroups" class="mt-2 col-sm-6 col-md-4 col-xl-3">
         <div class="card border border-black">
           <div class="card-header text-bg-black">{{ group.name }}</div>
           <div class="card-body container-fluid">
@@ -61,7 +61,7 @@
         <app-entrygroup-create-modal [isIntake]="false" [monthstring]="wholeMonthString">
         </app-entrygroup-create-modal>
       </div>
-      <div *ngFor="let group of month.spendingGroups" class="mb-2 mb-2 col-sm-6 col-md-4 col-xl-3">
+      <div *ngFor="let group of month.spendingGroups" class="mt-2 col-sm-6 col-md-4 col-xl-3">
         <div class="card border border-black">
           <div class="card-header text-bg-black">{{ group.name }}</div>
           <div class="card-body container-fluid">
