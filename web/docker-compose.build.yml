@@ -5,4 +5,4 @@ services:
       dockerfile: Dockerfile
     image: fnvw-build-frontend:latest
     volumes:
-      - ./dist/fnvw-frontend:/app/dist/fnvw-frontend
+      - ./:/app/
