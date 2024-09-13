@@ -1,11 +1,6 @@
 FROM maven:3.9.8-amazoncorretto-17-debian AS dependencies
 WORKDIR /app
 COPY pom.xml .
-COPY src ./src
 RUN mvn dependency:go-offline
 
-FROM maven:3.9.8-amazoncorretto-17-debian
-WORKDIR /app
-COPY --from=dependencies /root/.m2 /root/.m2
-COPY . .
 CMD ["mvn", "package", "-DskipTests"]
