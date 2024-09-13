@@ -3,63 +3,44 @@
 <div class="container-fluid">
   <div *ngFor="let month of months">
 
-    <span class="badge text-bg-black mb-1">
+    <span class="badge text-bg-black mb-1 me-1">
       {{ month.month.substring(4, 6) }}. {{ month.month.substring(0, 4) }}
     </span>
-
-    <div class="row mb-3">
-      <div class="col-auto d-flex flex-column">
-        <span>Gesamte Einnahmen:</span>
-        <span>Gesamte Ausgaben:</span>
-        <span>Differenz:</span>
-      </div>
-
-      <div class="col-auto d-flex flex-column">
-        <span *ngIf="month.month !== ''" class="badge text-bg-success mb-1">
-          {{ (this.utilService.calcSumOfAllGroups(month.intakeGroups) / 100).toFixed(2) }}€
-        </span>
-        <span *ngIf="month.month !== ''" class="badge text-bg-danger mb-1">
-          {{ (this.utilService.calcSumOfAllGroups(month.spendingGroups) / 100).toFixed(2) }}€
-        </span>
-        <span *ngIf="month.month !== ''" class="badge mb-1"
-              [class]="parseInt((this.utilService.calcSumOfAllGroups(month.intakeGroups) / 100).toFixed(2)) - parseInt((this.utilService.calcSumOfAllGroups(month.spendingGroups) / 100).toFixed(2)) < 0.00 ? 'text-bg-danger' : 'text-bg-success'">
-          {{
-            parseFloat((this.utilService.calcSumOfAllGroups(month.intakeGroups) / 100).toFixed(2))
-            - parseFloat((this.utilService.calcSumOfAllGroups(month.spendingGroups) / 100).toFixed(2))
-          }}
-          €
-        </span>
-      </div>
-    </div>
+    <span *ngIf="month.month !== ''" class="badge mb-1"
+          [class]="getDiffBadgeClass(month)">
+      {{
+            (parseFloat((this.utilService.calcSumOfAllGroups(month.intakeGroups) / 100).toFixed(2)) -
+                parseFloat((this.utilService.calcSumOfAllGroups(month.spendingGroups) / 100).toFixed(2))
+            ).toFixed(2)
+      }}€
+    </span>
 
     <div class="row rounded border-start border-5 border-end border-success mx-0">
-      <div *ngFor="let group of month.intakeGroups"
-           [class]="getColClassesForCardsOnEntryScreen(month.intakeGroups.length)">
-
+      <div class="d-flex justify-content-end">
+        <app-entrygroup-create-modal [isIntake]="true" [monthstring]="wholeMonthString">
+        </app-entrygroup-create-modal>
+      </div>
+      <div *ngFor="let group of month.intakeGroups" class="mt-2 col-sm-6 col-md-4 col-xl-3">
         <div class="card border border-black">
           <div class="card-header text-bg-black">{{ group.name }}</div>
           <div class="card-body container-fluid">
             <div *ngFor="let type of group.entryTypes">
-
               <div class="d-flex justify-content-between align-items-center">
                 <span>{{ type.name }}</span>
                 <a data-bs-toggle="collapse" aria-expanded="false" [href]="'#entryListTypeNO_' + type.id">
                   <span class="badge text-bg-black">
-                    <i class="bi bi-eye icon-hidden"></i>
-                    {{ (utilService.calcSumOfType(type) / 100).toFixed(2) }}€
+                    <i class="bi bi-eye icon-hidden"></i>{{ (utilService.calcSumOfType(type) / 100).toFixed(2) }}€
                   </span>
                 </a>
               </div>
-
               <div class="collapse" [id]="'entryListTypeNO_' + type.id">
                 <div *ngFor="let entry of type.entries">
                   <div class="d-flex justify-content-between align-items-center">
-                    <span>{{ entry.name }}</span>
+                    <span class="text-secondary">{{ entry.name }}</span>
                     <span class="badge"> {{ (entry.value / 100).toFixed(2) }}€ </span>
                   </div>
                 </div>
               </div>
-
             </div>
           </div>
           <div class="card-footer">
@@ -70,43 +51,38 @@
             </div>
           </div>
         </div>
-
       </div>
     </div>
 
     <div class="mb-3"></div>
 
     <div class="row rounded border-start border-5 border-end border-danger mx-0">
-      <div *ngFor="let group of month.spendingGroups"
-           [class]="getColClassesForCardsOnEntryScreen(month.spendingGroups.length)">
-
+      <div class="d-flex justify-content-end">
+        <app-entrygroup-create-modal [isIntake]="false" [monthstring]="wholeMonthString">
+        </app-entrygroup-create-modal>
+      </div>
+      <div *ngFor="let group of month.spendingGroups" class="mt-2 col-sm-6 col-md-4 col-xl-3">
         <div class="card border border-black">
           <div class="card-header text-bg-black">{{ group.name }}</div>
           <div class="card-body container-fluid">
-
             <div *ngFor="let type of group.entryTypes">
-
               <div class="d-flex justify-content-between align-items-center">
                 <span>{{ type.name }}</span>
                 <a data-bs-toggle="collapse" aria-expanded="false" [href]="'#entryListTypeNO_' + type.id">
                   <span class="badge text-bg-black">
-                    <i class="bi bi-eye icon-hidden"></i>
-                    {{ (utilService.calcSumOfType(type) / 100).toFixed(2) }}€
+                    <i class="bi bi-eye icon-hidden"></i>{{ (utilService.calcSumOfType(type) / 100).toFixed(2) }}€
                   </span>
                 </a>
               </div>
-
               <div class="collapse" [id]="'entryListTypeNO_' + type.id">
                 <div *ngFor="let entry of type.entries">
                   <div class="d-flex justify-content-between align-items-center">
-                    <span>{{ entry.name }}</span>
+                    <span class="text-secondary">{{ entry.name }}</span>
                     <span class="badge"> {{ (entry.value / 100).toFixed(2) }}€ </span>
                   </div>
                 </div>
               </div>
-
             </div>
-
           </div>
           <div class="card-footer">
             <div class="d-flex justify-content-end align-items-center">
@@ -116,7 +92,6 @@
             </div>
           </div>
         </div>
-
       </div>
     </div>
 

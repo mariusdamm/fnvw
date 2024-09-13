@@ -1,9 +1,8 @@
-<button type="button" class="btn btn-black tooltipbox" data-bs-toggle="modal" data-bs-target="#addGroupModal">
-  <span class="badge tooltiptext tooltiptext-left">Gruppe hinzufügen</span>
-  <i class="bi bi-collection"></i>
-</button>
+<a role="button" class="btn btn-black" data-bs-toggle="modal" [href]="'#addGroupModal_' + isIntake + monthstring">
+    <i class="bi bi-collection me-1"></i>Gruppe hinzufügen
+</a>
 
-<div class="modal fade" id="addGroupModal" data-bs-backdrop="static" tabindex="-1"
+<div class="modal fade" [id]="'addGroupModal_' + isIntake + monthstring" data-bs-backdrop="static" tabindex="-1"
      aria-labelledby="addGroupModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable">
     <div class="modal-content">
@@ -11,23 +10,11 @@
       <form (ngSubmit)="postEntrygroup($event)">
 
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="addGroupModalLabel">Gruppe erstellen</h1>
+          <h1 class="modal-title fs-5" id="addGroupModalLabel">{{isIntake ? 'Einnahme-Gruppe' : 'Ausgabe-Gruppe'}} erstellen</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
 
         <div class="modal-body">
-          <div class="d-flex justify-content-center mb-2">
-            <div class="btn-group w-100" id="groupIntakeGroup" role="radiogroup"
-                 aria-label="Radio toggle button group entry value">
-              <input #groupIntakeButton type="radio" class="btn-check" name="groupIntakeRadio"
-                     id="groupIntakeButton" autocomplete="off" value="true">
-              <label #groupIntakeLabel class="btn btn-outline-success" for="groupIntakeButton">Einnahme</label>
-
-              <input #groupSpendingButton type="radio" class="btn-check" name="groupIntakeRadio"
-                     id="groupSpendingButton" autocomplete="off" value="false">
-              <label #groupSpendingLabel class="btn btn-outline-danger" for="groupSpendingButton">Ausgabe</label>
-            </div>
-          </div>
 
           <div class="form-floating mb-2">
             <input #groupNameInput type="text" class="form-control" id="groupNameInput" autocomplete="off">
