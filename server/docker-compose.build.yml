@@ -5,4 +5,4 @@ services:
       dockerfile: Dockerfile.build
     image: fnvw-build-backend:latest
     volumes:
-      - ./target:/app/target
+      - ./:/app/
