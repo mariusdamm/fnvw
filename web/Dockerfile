@@ -1,4 +1,4 @@
-FROM node:22.6.0-bookworm
+FROM node:slim
 WORKDIR /app
 COPY package.json .
 COPY angular.json .
