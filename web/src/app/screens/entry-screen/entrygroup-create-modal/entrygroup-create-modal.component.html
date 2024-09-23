@@ -1,6 +1,6 @@
-<a role="button" class="btn btn-black" data-bs-toggle="modal" [href]="'#addGroupModal_' + isIntake + monthstring">
-    <i class="bi bi-collection me-1"></i>Gruppe hinzufügen
-</a>
+<button type="button" class="btn btn-black" data-bs-toggle="modal" [attr.data-bs-target]="'#addGroupModal_' + isIntake + monthstring">
+  <i class="bi bi-collection"></i>
+</button>
 
 <div class="modal fade" [id]="'addGroupModal_' + isIntake + monthstring" data-bs-backdrop="static" tabindex="-1"
      aria-labelledby="addGroupModalLabel" aria-hidden="true">
