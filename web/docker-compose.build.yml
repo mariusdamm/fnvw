@@ -5,4 +5,8 @@ services:
       dockerfile: Dockerfile
     image: fnvw-build-frontend:latest
     volumes:
-      - ./:/app/
+      - ./dist/:/app/dist/
+      - ./src/:/app/src/
+      - ./tsconfig.spec.json:/app/tsconfig.spec.json
+      - ./tsconfig.json:/app/tsconfig.json
+      - ./tsconfig.app.json:/app/tsconfig.app.json
