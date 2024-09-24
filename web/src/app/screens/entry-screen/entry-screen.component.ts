@@ -8,6 +8,7 @@ import {PlusButtonComponent} from "../../plus-button/plus-button.component";
 import {Subscription} from "rxjs";
 import {MonthProviderService} from "../../services/month-provider.service";
 import {EntrygroupCreateModalComponent} from "./entrygroup-create-modal/entrygroup-create-modal.component";
+import {EntryCreateModalComponent} from "./entry-create-modal/entry-create-modal.component";
 
 @Component({
   selector: 'app-entry-screen',
@@ -16,7 +17,8 @@ import {EntrygroupCreateModalComponent} from "./entrygroup-create-modal/entrygro
     NgForOf,
     NgIf,
     PlusButtonComponent,
-    EntrygroupCreateModalComponent
+    EntrygroupCreateModalComponent,
+    EntryCreateModalComponent
   ],
   templateUrl: './entry-screen.component.html',
   styleUrl: './entry-screen.component.css'
