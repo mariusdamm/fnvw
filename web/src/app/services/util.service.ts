@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core';
-import {EntryTypeDto} from "../dtos/entrytype-dto";
 import {EntrygroupDto} from "../dtos/entrygroup-dto";
 
 @Injectable({
@@ -17,15 +16,9 @@ export class UtilService {
     }, 500);
   }
 
-  calcSumOfType(type: EntryTypeDto) {
-    let sum = 0;
-    type.entries.forEach(entry => sum += entry.value);
-    return sum;
-  }
-
   calcSumOfGroup(group: EntrygroupDto) {
     let sum = 0;
-    group.entryTypes.forEach(type => sum += this.calcSumOfType(type));
+    group.entries.forEach(entry => sum += entry.value);
     return sum;
   }
 
