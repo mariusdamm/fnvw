@@ -1,5 +1,4 @@
 import {Component, ElementRef, ViewChild} from '@angular/core';
-import {EntrytypeCreateModalComponent} from "./entrytype-create-modal/entrytype-create-modal.component";
 import {EntryCreateModalComponent} from "./entry-create-modal/entry-create-modal.component";
 import {MonthAddModalComponent} from "./month-add-modal/month-add-modal.component";
 
@@ -7,7 +6,6 @@ import {MonthAddModalComponent} from "./month-add-modal/month-add-modal.componen
   selector: 'app-plus-button',
   standalone: true,
   imports: [
-    EntrytypeCreateModalComponent,
     EntryCreateModalComponent,
     MonthAddModalComponent
   ],
