@@ -1,5 +1,5 @@
 import {Component, ElementRef, ViewChild} from '@angular/core';
-import {MonthAddModalComponent} from "./month-add-modal/month-add-modal.component";
+import {MonthAddModalComponent} from "../screens/entry-screen/month-add-modal/month-add-modal.component";
 
 @Component({
   selector: 'app-plus-button',
