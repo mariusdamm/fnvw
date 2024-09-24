@@ -7,9 +7,7 @@ import {UtilService} from "../../services/util.service";
 import {PlusButtonComponent} from "../../plus-button/plus-button.component";
 import {Subscription} from "rxjs";
 import {MonthProviderService} from "../../services/month-provider.service";
-import {
-  EntrygroupCreateModalComponent
-} from "./entrygroup-create-modal/entrygroup-create-modal.component";
+import {EntrygroupCreateModalComponent} from "./entrygroup-create-modal/entrygroup-create-modal.component";
 
 @Component({
   selector: 'app-entry-screen',
@@ -87,6 +85,5 @@ export class EntryScreenComponent implements OnInit, OnDestroy {
     ) < 0.00 ? 'text-bg-danger' : 'text-bg-success';
   }
 
-  protected readonly parseInt = parseInt;
   protected readonly parseFloat = parseFloat;
 }
