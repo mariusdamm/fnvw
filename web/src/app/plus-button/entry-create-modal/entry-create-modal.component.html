@@ -1,16 +1,18 @@
-<button type="button" class="btn btn-black tooltipbox" data-bs-toggle="modal" data-bs-target="#addEntryModal">
+<button type="button" class="btn btn-black tooltipbox" data-bs-toggle="modal"
+        [attr.data-bs-target]="'#addEntryModal_' + entryGroup?.id">
   <span class="badge tooltiptext tooltiptext-left">Eintrag hinzufügen</span>
   <i class="bi bi-currency-euro"></i>
 </button>
 
-<div class="modal fade" id="addEntryModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="addEntryModalLabel"
-     aria-hidden="true">
+<div class="modal fade" [id]="'addEntryModal_' + entryGroup?.id" data-bs-backdrop="static" tabindex="-1"
+     [attr.aria-labelledby]="'addEntryModalLabel_' + entryGroup?.id" aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable">
     <div class="modal-content">
       <form (ngSubmit)="postEntry($event)">
 
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="addEntryModalLabel">Eintrag erstellen</h1>
+          <h1 class="modal-title fs-5" [id]="'addEntryModalLabel_' + entryGroup?.id">Eintrag zu {{ entryGroup?.name }}
+            hinzufügen</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
 

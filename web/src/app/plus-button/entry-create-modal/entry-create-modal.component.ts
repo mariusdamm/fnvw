@@ -1,12 +1,12 @@
-import {Component, ElementRef, ViewChild} from '@angular/core';
+import {Component, ElementRef, Input, ViewChild} from '@angular/core';
 import {AxiosService} from "../../services/axios.service";
 import {FormsModule} from "@angular/forms";
-import {EntrygroupDto} from "../../dtos/entrygroup-dto";
 import {EntryCreateDto} from "../../dtos/entry-create-dto";
 import {AuthService} from "../../services/auth.service";
 import {MonthProviderService} from "../../services/month-provider.service";
 import {UtilService} from "../../services/util.service";
 import {NgForOf} from "@angular/common";
+import {EntrygroupDto} from "../../dtos/entrygroup-dto";
 
 declare let bootstrap: any;
 
@@ -22,19 +22,10 @@ declare let bootstrap: any;
 })
 export class EntryCreateModalComponent {
 
-  @ViewChild('entryIntakeButton') entryModalIntakeButton!: ElementRef<HTMLInputElement>;
-  @ViewChild('entryIntakeLabel') entryModalIntakeLabel!: ElementRef<HTMLLabelElement>;
-  @ViewChild('entrySpendingButton') entryModalSpendingButton!: ElementRef<HTMLInputElement>;
-  @ViewChild('entrySpendingLabel') entryModalSpendingLabel!: ElementRef<HTMLLabelElement>;
-  @ViewChild('entryGroupSelect') entryModalGroupSelect!: ElementRef<HTMLSelectElement>;
-  @ViewChild('entryTypeSelect') entryModalTypeSelect!: ElementRef<HTMLSelectElement>;
   @ViewChild('entryValueInput') entryModalValueInput!: ElementRef<HTMLInputElement>;
   @ViewChild('entryNameInput') entryModalNameInput!: ElementRef<HTMLInputElement>;
-  currentYear: number = new Date().getFullYear();
-  currentMonth: number = new Date().getMonth() + 1;
-  wholeMonthString = this.currentYear.toString() +
-    (this.currentMonth > 9 ? '' : '0') + this.currentMonth.toString();
-  entryGroups: EntrygroupDto[] = [];
+
+  @Input() entryGroup?: EntrygroupDto;
 
   constructor(
     private axiosService: AxiosService,
@@ -47,30 +38,19 @@ export class EntryCreateModalComponent {
   postEntry(event: Event) {
     event.preventDefault();
 
-    const entryTypeId = parseInt(this.entryModalTypeSelect.nativeElement.value);
-    const entryGroupId = parseInt(this.entryModalGroupSelect.nativeElement.value);
+    if (!this.entryGroup?.id)
+      return;
+
     const entryValue = 100 * parseFloat(this.entryModalValueInput.nativeElement.value
       .replace(',', '.'));
     const entryName = this.entryModalNameInput.nativeElement.value;
 
-    let isIntakeChecked = this.entryModalIntakeButton.nativeElement.checked ||
-      this.entryModalSpendingButton.nativeElement.checked;
-    if (!isIntakeChecked) {
-      this.utilService.highlightInvalidInput(this.entryModalIntakeLabel.nativeElement);
-      this.utilService.highlightInvalidInput(this.entryModalSpendingLabel.nativeElement);
-    }
-    if (this.entryModalGroupSelect.nativeElement.value.trim() === '')
-      this.utilService.highlightInvalidInput(this.entryModalGroupSelect.nativeElement);
-    if (this.entryModalTypeSelect.nativeElement.value.trim() === '')
-      this.utilService.highlightInvalidInput(this.entryModalTypeSelect.nativeElement);
-    if (entryValue === 0)
+    if (entryValue === 0) {
       this.utilService.highlightInvalidInput(this.entryModalValueInput.nativeElement);
-
-    if (entryValue === 0 || this.entryModalTypeSelect.nativeElement.value.trim() === '' || !isIntakeChecked ||
-      this.entryModalGroupSelect.nativeElement.value.trim() === '')
       return;
+    }
 
-    const entryDto = new EntryCreateDto(entryName, entryValue, entryTypeId);
+    const entryDto = new EntryCreateDto(entryName, entryValue, this.entryGroup.id);
 
     this.axiosService.request(
       "POST",
@@ -82,7 +62,10 @@ export class EntryCreateModalComponent {
       if (entry === null)
         throw new Error('Entry is null. An Error happened');
 
-      this.monthProviderService.addEntryToGroup(entry, entryGroupId);
+      if (!this.entryGroup?.id)
+        throw new Error('EntryGroupId passed by parent is undefined');
+
+      this.monthProviderService.addEntryToGroup(entry, this.entryGroup.id);
       const bsCollapse = new bootstrap.Collapse('#postEntrySuccessCollapse', {});
       bsCollapse.show();
       setTimeout(() => bsCollapse.hide(), 3000);
