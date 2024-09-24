@@ -1,12 +1,10 @@
 import {Component, ElementRef, ViewChild} from '@angular/core';
-import {EntryCreateModalComponent} from "./entry-create-modal/entry-create-modal.component";
 import {MonthAddModalComponent} from "./month-add-modal/month-add-modal.component";
 
 @Component({
   selector: 'app-plus-button',
   standalone: true,
   imports: [
-    EntryCreateModalComponent,
     MonthAddModalComponent
   ],
   templateUrl: './plus-button.component.html',
