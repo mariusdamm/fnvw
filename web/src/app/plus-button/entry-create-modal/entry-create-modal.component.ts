@@ -80,9 +80,9 @@ export class EntryCreateModalComponent {
       return response.data;
     }).then(entry => {
       if (entry === null)
-        throw new Error('Type is null. An Error happened');
+        throw new Error('Entry is null. An Error happened');
 
-      this.monthProviderService.addEntryToType(entry, entryGroupId, entryTypeId);
+      this.monthProviderService.addEntryToGroup(entry, entryGroupId);
       const bsCollapse = new bootstrap.Collapse('#postEntrySuccessCollapse', {});
       bsCollapse.show();
       setTimeout(() => bsCollapse.hide(), 3000);

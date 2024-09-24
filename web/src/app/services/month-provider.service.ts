@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable} from "rxjs";
 import {MonthDto} from "../dtos/month-dto";
 import {EntrygroupDto} from "../dtos/entrygroup-dto";
-import {EntryTypeDto} from "../dtos/entrytype-dto";
 import {EntryDto} from "../dtos/entry-dto";
 
 @Injectable({
@@ -54,36 +53,16 @@ export class MonthProviderService {
     this.updateMonth(month);
   }
 
-  addTypeToGroup(type: EntryTypeDto, groupId: number) {
+  addEntryToGroup(entry: EntryDto, groupId: number) {
     this._months.getValue().forEach(month => {
       let group = month.intakeGroups.find(g => g.id === groupId);
       if (group !== undefined) {
-        group.entryTypes.push(type);
+        group.entries.push(entry);
       }
 
       group = month.spendingGroups.find(g => g.id === groupId);
       if (group !== undefined) {
-        group.entryTypes.push(type);
-      }
-    });
-  }
-
-  addEntryToType(entry: EntryDto, groupId: number, typeId: number) {
-    this._months.getValue().forEach(month => {
-      let group = month.intakeGroups.find(g => g.id === groupId);
-      if (group !== undefined) {
-        let type = group.entryTypes.find(t => t.id === typeId);
-        if (type !== undefined) {
-          type.entries.push(entry);
-        }
-      }
-
-      group = month.spendingGroups.find(g => g.id === groupId);
-      if (group !== undefined) {
-        let type = group.entryTypes.find(t => t.id === typeId);
-        if (type !== undefined) {
-          type.entries.push(entry);
-        }
+        group.entries.push(entry);
       }
     });
   }
