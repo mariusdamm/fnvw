@@ -1,12 +1,12 @@
 import {Component, ElementRef, Input, ViewChild} from '@angular/core';
-import {AxiosService} from "../../services/axios.service";
+import {AxiosService} from "../../../services/axios.service";
 import {FormsModule} from "@angular/forms";
-import {EntryCreateDto} from "../../dtos/entry-create-dto";
-import {AuthService} from "../../services/auth.service";
-import {MonthProviderService} from "../../services/month-provider.service";
-import {UtilService} from "../../services/util.service";
+import {EntryCreateDto} from "../../../dtos/entry-create-dto";
+import {AuthService} from "../../../services/auth.service";
+import {MonthProviderService} from "../../../services/month-provider.service";
+import {UtilService} from "../../../services/util.service";
 import {NgForOf} from "@angular/common";
-import {EntrygroupDto} from "../../dtos/entrygroup-dto";
+import {EntrygroupDto} from "../../../dtos/entrygroup-dto";
 
 declare let bootstrap: any;
 
