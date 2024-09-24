@@ -1,7 +1,7 @@
 package de.marius.fnvw.entity;
 
+import de.marius.fnvw.dto.EntryDto;
 import de.marius.fnvw.dto.EntryGroupDto;
-import de.marius.fnvw.dto.EntryTypeDto;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ public class EntryGroup {
     @Column(name = "entrygroup_isintake", nullable = false)
     boolean isIntake;
     @OneToMany(mappedBy = "group")
-    List<EntryType> entryTypes = new ArrayList<>();
+    List<Entry> entries = new ArrayList<>();
     @ManyToOne()
     @JoinColumn(name = "entrytype_owner")
     AppUser owner;
@@ -77,12 +77,12 @@ public class EntryGroup {
         this.isIntake = isIntake;
     }
 
-    public List<EntryType> getEntryTypes() {
-        return entryTypes;
+    public List<Entry> getEntries() {
+        return entries;
     }
 
-    public void setEntryTypes(List<EntryType> entryTypes) {
-        this.entryTypes = entryTypes;
+    public void setEntries(List<Entry> entries) {
+        this.entries = entries;
     }
 
     public AppUser getOwner() {
@@ -94,11 +94,11 @@ public class EntryGroup {
     }
 
     public EntryGroupDto toDto() {
-        List<EntryTypeDto> types = new ArrayList<>();
-        for (EntryType type : entryTypes) {
-            types.add(type.toDto());
+        List<EntryDto> entryDtos = new ArrayList<>();
+        for (Entry entry : entries) {
+            entryDtos.add(entry.toDto());
         }
-        return new EntryGroupDto(id, name, month, isIntake, types);
+        return new EntryGroupDto(id, name, month, isIntake, entryDtos);
     }
 
     @Override
@@ -108,7 +108,7 @@ public class EntryGroup {
                 ", name='" + name + '\'' +
                 ", month=" + month +
                 ", isIntake=" + isIntake +
-                ", entryTypes=" + entryTypes +
+                ", entries=" + entries +
                 ", owner=" + owner +
                 '}';
     }

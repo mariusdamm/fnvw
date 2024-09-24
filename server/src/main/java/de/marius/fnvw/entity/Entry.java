@@ -16,25 +16,25 @@ public class Entry {
     @Column(name = "entry_value", nullable = false)
     int value;
     @ManyToOne()
-    @JoinColumn(name = "entry_entry_type", nullable = false)
-    EntryType type;
+    @JoinColumn(name = "entry_entrygroup", nullable = false)
+    EntryGroup group;
 
     public Entry() {
     }
 
-    public Entry(long id, String name, int value, EntryType type) {
+    public Entry(long id, String name, int value, EntryGroup group) {
         this.id = id;
         this.name = name;
         this.value = value;
-        this.type = type;
+        this.group = group;
     }
 
-    public EntryType getType() {
-        return type;
+    public EntryGroup getGroup() {
+        return group;
     }
 
-    public void setType(EntryType type) {
-        this.type = type;
+    public void setGroup(EntryGroup group) {
+        this.group = group;
     }
 
     public String getName() {
@@ -62,7 +62,7 @@ public class Entry {
     }
 
     public EntryDto toDto(){
-        return new EntryDto(id, name, value, type.getId());
+        return new EntryDto(id, name, value, group.getId());
     }
 
     @Override
@@ -71,7 +71,7 @@ public class Entry {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", value=" + value +
-                ", type=" + type +
+                ", group=" + group +
                 '}';
     }
 }
