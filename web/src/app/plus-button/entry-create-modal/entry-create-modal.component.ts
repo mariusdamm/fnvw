@@ -7,7 +7,6 @@ import {AuthService} from "../../services/auth.service";
 import {MonthProviderService} from "../../services/month-provider.service";
 import {UtilService} from "../../services/util.service";
 import {NgForOf} from "@angular/common";
-import {EntryTypeDto} from "../../dtos/entrytype-dto";
 
 declare let bootstrap: any;
 
@@ -36,7 +35,6 @@ export class EntryCreateModalComponent {
   wholeMonthString = this.currentYear.toString() +
     (this.currentMonth > 9 ? '' : '0') + this.currentMonth.toString();
   entryGroups: EntrygroupDto[] = [];
-  entryTypes: EntryTypeDto[] = [];
 
   constructor(
     private axiosService: AxiosService,
@@ -98,41 +96,6 @@ export class EntryCreateModalComponent {
     });
   }
 
-  loadEntryGroups() {
-    let groups: EntrygroupDto[] | undefined = undefined
-    if (this.entryModalIntakeButton.nativeElement.checked) {
-      groups = this.monthProviderService.getMonth(this.wholeMonthString)?.intakeGroups;
-    } else if (this.entryModalSpendingButton.nativeElement.checked) {
-      groups = this.monthProviderService.getMonth(this.wholeMonthString)?.spendingGroups;
-    }
-
-    if (groups !== undefined) {
-      this.entryGroups = groups;
-    }
-  }
-
-  loadEntryTypes() {
-    const selectedGroupId = parseInt(this.entryModalGroupSelect.nativeElement.value);
-    let types: EntryTypeDto[] | undefined;
-    if (this.entryModalIntakeButton.nativeElement.checked) {
-      this.monthProviderService.getMonth(this.wholeMonthString)?.intakeGroups.forEach(group => {
-        if (group.id === selectedGroupId) {
-          types = group.entryTypes;
-        }
-      });
-    } else if (this.entryModalSpendingButton.nativeElement.checked) {
-      this.monthProviderService.getMonth(this.wholeMonthString)?.spendingGroups.forEach(group => {
-        if (group.id === selectedGroupId) {
-          types = group.entryTypes;
-        }
-      });
-    }
-
-    if (types !== undefined) {
-      this.entryTypes = types;
-    }
-  }
-
   validateEntryValueInput() {
     let inputField = this.entryModalValueInput.nativeElement;
     let pattern = /^\d+(,\d{2})?€?$/;
@@ -155,10 +118,5 @@ export class EntryCreateModalComponent {
     let inputField = this.entryModalValueInput.nativeElement;
     const pattern = /[^0-9,]/g;
     inputField.value = inputField.value.replace(pattern, '');
-  }
-
-  resetSelects() {
-    this.entryModalGroupSelect.nativeElement.value = '';
-    this.entryModalTypeSelect.nativeElement.value = '';
   }
 }

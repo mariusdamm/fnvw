@@ -15,45 +15,9 @@
         </div>
 
         <div class="modal-body">
-
-          <div class="d-flex justify-content-center mb-2">
-            <div class="btn-group w-100" id="entryIntakeGroup" role="radiogroup"
-                 aria-label="Radio toggle button group entry value">
-              <input #entryIntakeButton type="radio" class="btn-check" name="entryIntakeRadio" id="entryIntakeButton"
-                     autocomplete="off" value="true" (click)="loadEntryGroups(); resetSelects();"
-                     (keydown)="loadEntryGroups(); resetSelects();">
-              <label #entryIntakeLabel class="btn btn-outline-success" for="entryIntakeButton">Einnahme</label>
-
-              <input #entrySpendingButton type="radio" class="btn-check" name="entryIntakeRadio"
-                     id="entrySpendingButton"
-                     autocomplete="off" value="false" (click)="loadEntryGroups(); resetSelects();"
-                     (keydown)="loadEntryGroups(); resetSelects();">
-              <label #entrySpendingLabel class="btn btn-outline-danger" for="entrySpendingButton">Ausgabe</label>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-sm-6 mb-2">
-              <div class="form-floating">
-                <select #entryGroupSelect class="form-select" id="entryGroupSelect_entry"
-                        aria-label="Floating label EntryGroup" (change)="loadEntryTypes()">
-                  <option value="" selected disabled>Bitte wählen</option>
-                  <option *ngFor="let group of entryGroups" [value]="group.id">{{ group.name }}</option>
-                </select>
-                <label for="entryGroupSelect_entry">Gruppe auswählen</label>
-              </div>
-            </div>
-
-            <div class="col-sm-6 mb-2">
-              <div class="form-floating">
-                <select #entryTypeSelect class="form-select" id="entryTypeSelect_entry"
-                        aria-label="Floating label EntryType">
-                  <option value="" selected disabled>Bitte wählen</option>
-                  <option *ngFor="let type of entryTypes" [value]="type.id">{{ type.name }}</option>
-                </select>
-                <label for="entryTypeSelect_entry">Kategorie auswählen</label>
-              </div>
-            </div>
+          <div class="form-floating mb-2">
+            <input #entryNameInput type="text" class="form-control" id="entryNameInput" autocomplete="off">
+            <label for="entryNameInput">Name</label>
           </div>
 
           <div class="form-floating mb-2">
@@ -61,11 +25,6 @@
                    (focus)="handleFocusEntryValueInput()" value="0€" (keyup)="removeLettersEntryValueInput()"
                    (blur)="validateEntryValueInput()">
             <label for="entryValueInput">Betrag</label>
-          </div>
-
-          <div class="form-floating mb-2">
-            <input #entryNameInput type="text" class="form-control" id="entryNameInput" autocomplete="off">
-            <label for="entryNameInput">Name</label>
           </div>
         </div>
 
