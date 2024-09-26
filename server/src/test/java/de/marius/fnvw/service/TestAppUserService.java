@@ -4,7 +4,6 @@ import de.marius.fnvw.dao.AppUserRepository;
 import de.marius.fnvw.dao.RoleRepository;
 import de.marius.fnvw.dto.EntryDto;
 import de.marius.fnvw.dto.EntryGroupDto;
-import de.marius.fnvw.dto.EntryTypeDto;
 import de.marius.fnvw.entity.*;
 import de.marius.fnvw.exception.DataNotFoundException;
 import de.marius.fnvw.exception.ForbiddenDataException;
@@ -37,15 +36,11 @@ class TestAppUserService {
     @Autowired
     private AppUserService appUserService;
     @Autowired
-    private EntryTypeService entryTypeService;
-    @Autowired
     private EntryService entryService;
 
     private AppUser testUser1;
     private EntryGroup groupOfUser1;
     private EntryGroup groupOfUser2;
-    private EntryType typeOfUser1;
-    private EntryType typeOfUser2;
     private Entry entryOfUser1;
     private Entry entryOfUser2;
 
@@ -78,20 +73,12 @@ class TestAppUserService {
         groupOfUser1 = entryGroupService.addEntryGroup(groupDto1, testUser1);
         groupOfUser2 = entryGroupService.addEntryGroup(groupDto2, testUser2);
 
-        String testEntryTypeName1 = "test entrytype1";
-        EntryTypeDto typeDto1 = new EntryTypeDto(groupOfUser1.getId(), testEntryTypeName1);
-        String testEntryTypeName2 = "test entrytype2";
-        EntryTypeDto typeDto2 = new EntryTypeDto(groupOfUser2.getId(), testEntryTypeName2);
-
-        typeOfUser1 = entryTypeService.addEntryType(typeDto1, testUser1);
-        typeOfUser2 = entryTypeService.addEntryType(typeDto2, testUser2);
-
         String testEntryName1 = "test entry1";
         int testEntryValue1 = 1150;
-        EntryDto entryDto1 = new EntryDto(testEntryName1, testEntryValue1, typeOfUser1.getId());
+        EntryDto entryDto1 = new EntryDto(testEntryName1, testEntryValue1, groupOfUser1.getId());
         String testEntryName2 = "test entry2";
         int testEntryValue2 = 1150;
-        EntryDto entryDto2 = new EntryDto(testEntryName2, testEntryValue2, typeOfUser2.getId());
+        EntryDto entryDto2 = new EntryDto(testEntryName2, testEntryValue2, groupOfUser2.getId());
 
         entryOfUser1 = entryService.addEntry(entryDto1, testUser1);
         entryOfUser2 = entryService.addEntry(entryDto2, testUser2);
@@ -144,20 +131,6 @@ class TestAppUserService {
     void test_invalid_group_belongs_to_user() throws DataNotFoundException {
         boolean result = appUserService.groupBelongsToUser(testUser1, groupOfUser2.getId());
 
-        assertFalse(result);
-    }
-
-    @Test
-    @Transactional
-    void test_valid_type_belongs_to_user() throws DataNotFoundException {
-        boolean result = appUserService.typeBelongsToUser(testUser1, typeOfUser1.getId());
-        assertTrue(result);
-    }
-
-    @Test
-    @Transactional
-    void test_invalid_type_belongs_to_user() throws DataNotFoundException {
-        boolean result = appUserService.typeBelongsToUser(testUser1, typeOfUser2.getId());
         assertFalse(result);
     }
 

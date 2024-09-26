@@ -1,0 +1,51 @@
+<button type="button" class="btn btn-outline-light btn-sm tooltipbox" data-bs-toggle="modal"
+        [attr.data-bs-target]="'#addEntryModal_' + entryGroup?.id">
+  <span class="badge tooltiptext tooltiptext-left">Eintrag hinzufügen</span>
+  <i class="bi bi-currency-euro"></i>
+</button>
+
+<div class="modal fade" [id]="'addEntryModal_' + entryGroup?.id" data-bs-backdrop="static" tabindex="-1"
+     [attr.aria-labelledby]="'addEntryModalLabel_' + entryGroup?.id" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <form (ngSubmit)="postEntry($event)">
+
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" [id]="'addEntryModalLabel_' + entryGroup?.id">Eintrag zu {{ entryGroup?.name }}
+            hinzufügen</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body">
+          <div class="form-floating mb-2">
+            <input #entryNameInput type="text" class="form-control" id="entryNameInput" autocomplete="off">
+            <label for="entryNameInput">Name</label>
+          </div>
+
+          <div class="form-floating mb-2">
+            <input #entryValueInput type="text" class="form-control" id="entryValueInput" autocomplete="off"
+                   (focus)="handleFocusEntryValueInput()" value="0€" (keyup)="removeLettersEntryValueInput()"
+                   (blur)="validateEntryValueInput()">
+            <label for="entryValueInput">Betrag</label>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-black">Entry speichern</button>
+          <div class="collapse w-100" id="postEntrySuccessCollapse">
+            <div class="alert alert-success m-0" role="alert">
+              Eintrag erfolgreich erstellt!
+            </div>
+          </div>
+          <div class="collapse w-100" id="postEntryDangerCollapse">
+            <div class="alert alert-danger m-0" role="alert">
+              Es ist etwas schiefgelaufen...
+            </div>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>

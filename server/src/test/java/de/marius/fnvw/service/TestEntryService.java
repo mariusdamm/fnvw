@@ -2,7 +2,6 @@ package de.marius.fnvw.service;
 
 import de.marius.fnvw.dao.AppUserRepository;
 import de.marius.fnvw.dao.EntryGroupRepository;
-import de.marius.fnvw.dao.EntryTypeRepository;
 import de.marius.fnvw.dao.RoleRepository;
 import de.marius.fnvw.dto.EntryDto;
 import de.marius.fnvw.entity.*;
@@ -31,14 +30,12 @@ class TestEntryService {
     @Autowired
     private EntryGroupRepository entryGroupRepository;
     @Autowired
-    private EntryTypeRepository entryTypeRepository;
-    @Autowired
     private RoleRepository roleRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
 
     private AppUser testUser;
-    private EntryType testType;
+    private EntryGroup testGroup;
 
     @BeforeEach
     @Transactional
@@ -55,11 +52,8 @@ class TestEntryService {
         int testGroupMonth = 202407;
         boolean testGroupIsIntake = true;
 
-        String testTypeName = "Test typppe";
-
         testUser = appUserRepository.save(new AppUser(testUserName, testUserUsername, passwordEncoder.encode(testUserPwd), roles));
-        EntryGroup testGroup = entryGroupRepository.save(new EntryGroup(testGroupName, testGroupMonth, testGroupIsIntake, testUser));
-        testType = entryTypeRepository.save(new EntryType(testTypeName, testGroup));
+        testGroup = entryGroupRepository.save(new EntryGroup(testGroupName, testGroupMonth, testGroupIsIntake, testUser));
     }
 
     @Test
@@ -67,7 +61,7 @@ class TestEntryService {
     void test_add_valid_entry() throws DataNotFoundException, MissingDataException, ForbiddenDataException {
         String testEntryName = "test entry";
         int testEntryValue = 1150;
-        EntryDto entryDto = new EntryDto(testEntryName, testEntryValue, testType.getId());
+        EntryDto entryDto = new EntryDto(testEntryName, testEntryValue, testGroup.getId());
 
         Entry result = entryService.addEntry(entryDto, testUser);
 

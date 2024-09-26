@@ -11,17 +11,17 @@ public class EntryGroupDto {
     String name;
     int month;
     boolean isIntake;
-    List<EntryTypeDto> entryTypes = new ArrayList<>();
+    List<EntryDto> entries = new ArrayList<>();
 
     public EntryGroupDto() {
     }
 
-    public EntryGroupDto(long id, String name, int month, boolean isIntake, List<EntryTypeDto> entryTypes) {
+    public EntryGroupDto(long id, String name, int month, boolean isIntake, List<EntryDto> entries) {
         this.id = id;
         this.name = name;
         this.month = month;
         this.isIntake = isIntake;
-        this.entryTypes = entryTypes;
+        this.entries = entries;
     }
 
     public EntryGroupDto(String name, int month, boolean isIntake) {
@@ -62,12 +62,12 @@ public class EntryGroupDto {
         this.isIntake = isIntake;
     }
 
-    public List<EntryTypeDto> getEntryTypes() {
-        return entryTypes;
+    public List<EntryDto> getEntries() {
+        return entries;
     }
 
-    public void setEntryTypes(List<EntryTypeDto> entryTypes) {
-        this.entryTypes = entryTypes;
+    public void setEntries(List<EntryDto> entries) {
+        this.entries = entries;
     }
 
     public EntryGroup toEntryGroup() {

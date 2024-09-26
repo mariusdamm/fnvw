@@ -7,7 +7,7 @@ public class EntryDto {
     long id;
     String name;
     int value;
-    long entryTypeId;
+    long entryGroupId;
 
     public EntryDto() {
     }
@@ -16,13 +16,13 @@ public class EntryDto {
         this.id = id;
         this.name = name;
         this.value = value;
-        this.entryTypeId = entryTypeId;
+        this.entryGroupId = entryTypeId;
     }
 
     public EntryDto(String name, int value, long entryTypeId) {
         this.name = name;
         this.value = value;
-        this.entryTypeId = entryTypeId;
+        this.entryGroupId = entryTypeId;
     }
 
     public String getName() {
@@ -41,12 +41,12 @@ public class EntryDto {
         this.value = value;
     }
 
-    public long getEntryTypeId() {
-        return entryTypeId;
+    public long getEntryGroupId() {
+        return entryGroupId;
     }
 
-    public void setEntryTypeId(int entryTypeId) {
-        this.entryTypeId = entryTypeId;
+    public void setEntryGroupId(int entryGroupId) {
+        this.entryGroupId = entryGroupId;
     }
 
     public Entry toEntry() {
@@ -59,7 +59,7 @@ public class EntryDto {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", value=" + value +
-                ", entryTypeId=" + entryTypeId +
+                ", entryGroupId=" + entryGroupId +
                 '}';
     }
 }

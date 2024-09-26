@@ -4,12 +4,11 @@ import {NgForOf, NgIf} from "@angular/common";
 import {AxiosService} from "../../services/axios.service";
 import {AuthService} from "../../services/auth.service";
 import {UtilService} from "../../services/util.service";
-import {PlusButtonComponent} from "../../plus-button/plus-button.component";
 import {Subscription} from "rxjs";
 import {MonthProviderService} from "../../services/month-provider.service";
-import {
-  EntrygroupCreateModalComponent
-} from "./entrygroup-create-modal/entrygroup-create-modal.component";
+import {EntrygroupCreateModalComponent} from "./entrygroup-create-modal/entrygroup-create-modal.component";
+import {EntryCreateModalComponent} from "./entry-create-modal/entry-create-modal.component";
+import {MonthAddModalComponent} from "./month-add-modal/month-add-modal.component";
 
 @Component({
   selector: 'app-entry-screen',
@@ -17,8 +16,9 @@ import {
   imports: [
     NgForOf,
     NgIf,
-    PlusButtonComponent,
-    EntrygroupCreateModalComponent
+    EntrygroupCreateModalComponent,
+    EntryCreateModalComponent,
+    MonthAddModalComponent
   ],
   templateUrl: './entry-screen.component.html',
   styleUrl: './entry-screen.component.css'
@@ -87,6 +87,5 @@ export class EntryScreenComponent implements OnInit, OnDestroy {
     ) < 0.00 ? 'text-bg-danger' : 'text-bg-success';
   }
 
-  protected readonly parseInt = parseInt;
   protected readonly parseFloat = parseFloat;
 }

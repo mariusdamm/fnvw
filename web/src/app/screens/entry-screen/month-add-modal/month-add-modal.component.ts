@@ -1,9 +1,9 @@
 import {Component, ElementRef, ViewChild} from '@angular/core';
-import {AxiosService} from "../../services/axios.service";
-import {UtilService} from "../../services/util.service";
-import {AuthService} from "../../services/auth.service";
+import {AxiosService} from "../../../services/axios.service";
+import {UtilService} from "../../../services/util.service";
+import {AuthService} from "../../../services/auth.service";
 import {FormsModule} from "@angular/forms";
-import {MonthProviderService} from "../../services/month-provider.service";
+import {MonthProviderService} from "../../../services/month-provider.service";
 
 declare let bootstrap: any;
 

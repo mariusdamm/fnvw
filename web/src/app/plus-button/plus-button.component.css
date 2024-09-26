@@ -1,9 +1,0 @@
-.svg-rotate:before {
-  transform: rotate(45deg);
-  transition: transform 0.5s ease;
-}
-
-.svg-unrotate:before {
-  transform: rotate(0deg);
-  transition: transform 0.5s ease;
-}

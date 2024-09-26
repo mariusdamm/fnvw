@@ -1,9 +1,9 @@
-import {EntryTypeDto} from "./entrytype-dto";
+import {EntryDto} from "./entry-dto";
 
 export interface EntrygroupDto{
   id: number;
   name: string;
   month: number;
   isIntake: boolean;
-  entryTypes: EntryTypeDto[];
+  entries: EntryDto[];
 }

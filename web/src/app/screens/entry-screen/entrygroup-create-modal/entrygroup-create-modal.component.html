@@ -1,4 +1,6 @@
-<button type="button" class="btn btn-black" data-bs-toggle="modal" [attr.data-bs-target]="'#addGroupModal_' + isIntake + monthstring">
+<button type="button" class="btn btn-black tooltipbox" data-bs-toggle="modal"
+        [attr.data-bs-target]="'#addGroupModal_' + isIntake + monthstring">
+  <span class="badge tooltiptext tooltiptext-left">Gruppe hinzufügen</span>
   <i class="bi bi-collection"></i>
 </button>
 
@@ -10,7 +12,8 @@
       <form (ngSubmit)="postEntrygroup($event)">
 
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="addGroupModalLabel">{{isIntake ? 'Einnahme-Gruppe' : 'Ausgabe-Gruppe'}} erstellen</h1>
+          <h1 class="modal-title fs-5" id="addGroupModalLabel">{{ isIntake ? 'Einnahme-Gruppe' : 'Ausgabe-Gruppe' }}
+            erstellen</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
 

@@ -1,4 +1,4 @@
-<app-plus-button></app-plus-button>
+<app-month-add-modal></app-month-add-modal>
 
 <div class="container-fluid">
   <div *ngFor="let month of months">
@@ -22,24 +22,15 @@
       </div>
       <div *ngFor="let group of month.intakeGroups" class="mt-2 col-sm-6 col-md-4 col-xl-3">
         <div class="card border border-black">
-          <div class="card-header text-bg-black">{{ group.name }}</div>
+          <div class="card-header text-bg-black d-flex justify-content-between align-items-center">
+            {{ group.name }}
+            <app-entry-create-modal [entryGroup]="group"></app-entry-create-modal>
+          </div>
           <div class="card-body container-fluid">
-            <div *ngFor="let type of group.entryTypes">
+            <div *ngFor="let entry of group.entries">
               <div class="d-flex justify-content-between align-items-center">
-                <span>{{ type.name }}</span>
-                <a data-bs-toggle="collapse" aria-expanded="false" [href]="'#entryListTypeNO_' + type.id">
-                  <span class="badge text-bg-black">
-                    <i class="bi bi-eye icon-hidden"></i>{{ (utilService.calcSumOfType(type) / 100).toFixed(2) }}€
-                  </span>
-                </a>
-              </div>
-              <div class="collapse" [id]="'entryListTypeNO_' + type.id">
-                <div *ngFor="let entry of type.entries">
-                  <div class="d-flex justify-content-between align-items-center">
-                    <span class="text-secondary">{{ entry.name }}</span>
-                    <span class="badge"> {{ (entry.value / 100).toFixed(2) }}€ </span>
-                  </div>
-                </div>
+                <span>{{ entry.name }}</span>
+                <span class="badge text-bg-black">{{ (entry.value / 100).toFixed(2) }}€</span>
               </div>
             </div>
           </div>
@@ -63,24 +54,15 @@
       </div>
       <div *ngFor="let group of month.spendingGroups" class="mt-2 col-sm-6 col-md-4 col-xl-3">
         <div class="card border border-black">
-          <div class="card-header text-bg-black">{{ group.name }}</div>
+          <div class="card-header text-bg-black d-flex justify-content-between align-items-center">
+            {{ group.name }}
+            <app-entry-create-modal [entryGroup]="group"></app-entry-create-modal>
+          </div>
           <div class="card-body container-fluid">
-            <div *ngFor="let type of group.entryTypes">
+            <div *ngFor="let entry of group.entries">
               <div class="d-flex justify-content-between align-items-center">
-                <span>{{ type.name }}</span>
-                <a data-bs-toggle="collapse" aria-expanded="false" [href]="'#entryListTypeNO_' + type.id">
-                  <span class="badge text-bg-black">
-                    <i class="bi bi-eye icon-hidden"></i>{{ (utilService.calcSumOfType(type) / 100).toFixed(2) }}€
-                  </span>
-                </a>
-              </div>
-              <div class="collapse" [id]="'entryListTypeNO_' + type.id">
-                <div *ngFor="let entry of type.entries">
-                  <div class="d-flex justify-content-between align-items-center">
-                    <span class="text-secondary">{{ entry.name }}</span>
-                    <span class="badge"> {{ (entry.value / 100).toFixed(2) }}€ </span>
-                  </div>
-                </div>
+                <span>{{ entry.name }}</span>
+                <span class="badge text-bg-black">{{ (entry.value / 100).toFixed(2) }}€</span>
               </div>
             </div>
           </div>
