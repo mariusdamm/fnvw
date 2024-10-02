@@ -31,7 +31,7 @@ export class EntrygroupCreateModalComponent {
   currentYear: number = new Date().getFullYear();
   currentMonth: number = new Date().getMonth() + 1;
 
-  @Input() monthstring?: string = this.currentYear.toString() +
+  @Input() monthstring: string = this.currentYear.toString() +
     (this.currentMonth > 9 ? '' : '0') + this.currentMonth.toString();
   @Input() isIntake?: boolean;
 
@@ -70,14 +70,16 @@ export class EntrygroupCreateModalComponent {
 
       this.monthProviderService.addGroup(group);
 
-      const bsCollapse = new bootstrap.Collapse('#postGroupSuccessCollapse', {});
+      const bsCollapse = new bootstrap.Collapse('#postGroupSuccessCollapse_'
+        + this.monthstring.toString() + this.isIntake, {});
       bsCollapse.show();
       setTimeout(() => bsCollapse.hide(), 3000);
     }).catch(error => {
       if (error.response.status === 401)
         this.authService.deleteJwtToken();
 
-      const bsCollapse = new bootstrap.Collapse('#postGroupDangerCollapse', {});
+      const bsCollapse = new bootstrap.Collapse('#postGroupDangerCollapse_'
+        + this.monthstring.toString() + this.isIntake, {});
       bsCollapse.show();
       setTimeout(() => bsCollapse.hide(), 3000);
     });

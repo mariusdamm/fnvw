@@ -28,12 +28,12 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           <button type="submit" class="btn btn-black">Gruppe speichern</button>
-          <div class="collapse w-100" id="postGroupSuccessCollapse">
+          <div class="collapse w-100" [id]="'postGroupSuccessCollapse_' + monthstring.toString() + isIntake">
             <div class="alert alert-success m-0" role="alert">
               Gruppe erfolgreich erstellt!
             </div>
           </div>
-          <div class="collapse w-100" id="postGroupDangerCollapse">
+          <div class="collapse w-100" [id]="'postGroupDangerCollapse_' + monthstring.toString() + isIntake">
             <div class="alert alert-danger m-0" role="alert">
               Es ist etwas schiefgelaufen...
             </div>
