@@ -66,14 +66,14 @@ export class EntryCreateModalComponent {
         throw new Error('EntryGroupId passed by parent is undefined');
 
       this.monthProviderService.addEntryToGroup(entry, this.entryGroup.id);
-      const bsCollapse = new bootstrap.Collapse('#postEntrySuccessCollapse', {});
+      const bsCollapse = new bootstrap.Collapse('#postEntrySuccessCollapse_' + this.entryGroup?.id, {});
       bsCollapse.show();
       setTimeout(() => bsCollapse.hide(), 3000);
     }).catch(error => {
       if (error.response.status === 401)
         this.authService.deleteJwtToken();
 
-      const bsCollapse = new bootstrap.Collapse('#postEntryDangerCollapse', {});
+      const bsCollapse = new bootstrap.Collapse('#postEntryDangerCollapse_' + this.entryGroup?.id, {});
       bsCollapse.show();
       setTimeout(() => bsCollapse.hide(), 3000);
     });
