@@ -33,12 +33,14 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           <button type="submit" class="btn btn-black">Entry speichern</button>
-          <div class="collapse w-100" [id]="'postEntrySuccessCollapse_' + entryGroup?.id">
+          <div class="collapse w-100" [id]="'postEntrySuccessCollapse_' +
+              entryGroup?.month.toString() + entryGroup?.id.toString()">
             <div class="alert alert-success m-0" role="alert">
               Eintrag erfolgreich erstellt!
             </div>
           </div>
-          <div class="collapse w-100" [id]="'postEntryDangerCollapse_' + entryGroup?.id">
+          <div class="collapse w-100" [id]="'postEntryDangerCollapse_' +
+              entryGroup?.month.toString() + entryGroup?.id.toString()">
             <div class="alert alert-danger m-0" role="alert">
               Es ist etwas schiefgelaufen...
             </div>
