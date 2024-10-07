@@ -20,10 +20,12 @@ jobs:
         run: chmod +x scripts/build.sh
 
       - name: Run build script
-        run: ./scripts/build.sh
+        working-directory: ./scripts
+        run: ./build.sh
 
       - name: Extract version from pom.xml
         id: extract_version
+        working-directory: .
         run: echo 'VERSION=$(xmllint --xpath "/*[local-name()=\"project\"]/*[local-name()=\"version\"]/text()" server/pom.xml)' >> $GITHUB_ENV
 
       - name: Build Docker Image with latest tag
