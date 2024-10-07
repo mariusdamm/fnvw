@@ -1,12 +1,12 @@
 name: Build and Deploy
 
 on:
-  push:
+  workflow_run:
+    workflows: ["Test Backend"]
     branches:
       - main
-  pull_request:
-    branches:
-      - main
+    types:
+      - completed
 
 jobs:
   build:
