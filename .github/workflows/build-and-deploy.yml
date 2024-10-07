@@ -1,0 +1,42 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set execute permission for build script
+        run: chmod +x scripts/build.sh
+
+      - name: Run build script
+        run: ./scripts/build.sh
+
+      - name: Extract version from pom.xml
+        id: extract_version
+        run: echo 'VERSION=$(xmllint --xpath "/*[local-name()=\"project\"]/*[local-name()=\"version\"]/text()" server/pom.xml)' >> $GITHUB_ENV
+
+      - name: Build Docker Image with latest tag
+        run: docker build -t ghcr.io/${{ github.repository_owner }}/fnvw:latest .
+
+      - name: Build Docker Image with version tag
+        run: docker build -t ghcr.io/${{ github.repository_owner }}/fnvw:${{ env.VERSION }} .
+
+      - name: Login to GHCR
+        run: echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
+
+      - name: Push Docker Image with latest tag to GHCR
+        run: docker push ghcr.io/${{ github.repository_owner }}/fnvw:latest
+
+      - name: Push Docker Image with version tag to GHCR
+        run: docker push ghcr.io/${{ github.repository_owner }}/fnvw:${{ env.VERSION }}
