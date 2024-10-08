@@ -25,9 +25,8 @@ jobs:
 
       - name: Extract version from pom.xml
         id: extract_version
-        working-directory: .
-        run: echo 'VERSION=$(xmllint --xpath "/*[local-name()=\"project\"]/*[local-name()=\"version\"]/text()" server/pom.xml)' >> $GITHUB_ENV
-
+        run: echo "VERSION=$(grep -oPm1 '(?<=<version>)[^<]+' server/pom.xml | sed -n '2p')" >> $GITHUB_ENV
+  
       - name: Build Docker Image with latest tag
         run: docker build -t ghcr.io/${{ github.repository_owner }}/fnvw:latest .
 
