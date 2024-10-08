@@ -16,12 +16,6 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: '17'
-
       - name: Set execute permission for build script
         run: chmod +x scripts/build.sh
 
@@ -30,6 +24,7 @@ jobs:
         run: ./build.sh
 
       - name: Extract version from pom.xml
+        working-directory: ./server
         id: extract_version
         run: echo "VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
   
