@@ -9,6 +9,7 @@ import {MonthProviderService} from "../../services/month-provider.service";
 import {EntrygroupCreateModalComponent} from "./entrygroup-create-modal/entrygroup-create-modal.component";
 import {EntryCreateModalComponent} from "./entry-create-modal/entry-create-modal.component";
 import {MonthAddModalComponent} from "./month-add-modal/month-add-modal.component";
+import {EntrygroupCardComponent} from "./entrygroup-card/entrygroup-card.component";
 
 @Component({
   selector: 'app-entry-screen',
@@ -18,7 +19,8 @@ import {MonthAddModalComponent} from "./month-add-modal/month-add-modal.componen
     NgIf,
     EntrygroupCreateModalComponent,
     EntryCreateModalComponent,
-    MonthAddModalComponent
+    MonthAddModalComponent,
+    EntrygroupCardComponent
   ],
   templateUrl: './entry-screen.component.html',
   styleUrl: './entry-screen.component.css'
