@@ -20,7 +20,8 @@
         <h5 class="m-0"><span class="badge text-bg-success">Einnahmen</span></h5>
         <app-entrygroup-create-modal [isIntake]="true" [monthstring]="wholeMonthString"></app-entrygroup-create-modal>
       </div>
-      <app-entrygroup-card *ngFor="let group of month.intakeGroups" [group]="group"></app-entrygroup-card>
+      <app-entrygroup-card class="mt-2 col-sm-6 col-md-4 col-xl-3" *ngFor="let group of month.intakeGroups"
+                           [group]="group"></app-entrygroup-card>
     </div>
 
     <div class="mb-3"></div>
@@ -30,7 +31,8 @@
         <h5 class="m-0"><span class="badge text-bg-danger">Ausgaben</span></h5>
         <app-entrygroup-create-modal [isIntake]="false" [monthstring]="wholeMonthString"></app-entrygroup-create-modal>
       </div>
-      <app-entrygroup-card *ngFor="let group of month.spendingGroups" [group]="group"></app-entrygroup-card>
+      <app-entrygroup-card class="mt-2 col-sm-6 col-md-4 col-xl-3" *ngFor="let group of month.spendingGroups"
+                           [group]="group"></app-entrygroup-card>
     </div>
 
     <hr class="my-4">
