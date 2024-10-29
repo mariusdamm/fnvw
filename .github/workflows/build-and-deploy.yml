@@ -1,13 +1,10 @@
 name: Build and Deploy
 
 on:
-  workflow_run:
-    workflows: ["Test Backend"]
+  push:
     branches:
-      - main
-    types:
-      - completed
-
+      - 'main'
+      
 jobs:
   build:
     runs-on: ubuntu-latest
