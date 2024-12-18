@@ -18,11 +18,11 @@
     <div class="row rounded border-start border-5 border-end border-success mx-0">
       <div class="d-flex justify-content-between align-items-center">
         <h5 class="m-0"><span class="badge text-bg-success">Einnahmen</span></h5>
-        <span class="badge mb-1 text-bg-success">
+        <h5 class="m-0"><span class="badge mb-1 text-bg-success">
           {{
                 parseFloat((this.utilService.calcSumOfAllGroups(month.intakeGroups) / 100).toFixed(2))
           }}€
-        </span>
+        </span></h5>
         <app-entrygroup-create-modal [isIntake]="true" [monthstring]="wholeMonthString"></app-entrygroup-create-modal>
       </div>
       <app-entrygroup-card class="mt-2 col-sm-6 col-md-4 col-xl-3" *ngFor="let group of month.intakeGroups"
@@ -34,11 +34,11 @@
     <div class="row rounded border-start border-5 border-end border-danger mx-0">
       <div class="d-flex justify-content-between align-items-center">
         <h5 class="m-0"><span class="badge text-bg-danger">Ausgaben</span></h5>
-        <span class="badge mb-1 text-bg-danger">
+        <h5 class="m-0"><span class="badge mb-1 text-bg-danger">
           {{
                 parseFloat((this.utilService.calcSumOfAllGroups(month.spendingGroups) / 100).toFixed(2))
           }}€
-        </span>
+        </span></h5>
         <app-entrygroup-create-modal [isIntake]="false" [monthstring]="wholeMonthString"></app-entrygroup-create-modal>
       </div>
       <app-entrygroup-card class="mt-2 col-sm-6 col-md-4 col-xl-3" *ngFor="let group of month.spendingGroups"
