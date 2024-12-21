@@ -17,8 +17,6 @@ public class EntryGroup {
     long id;
     @Column(name = "entrygroup_name", nullable = false)
     String name;
-    @Column(name = "entrygroup_month", nullable = false)
-    int month;
     @Column(name = "entrygroup_isintake", nullable = false)
     boolean isIntake;
     @OneToMany(mappedBy = "group")
@@ -30,27 +28,17 @@ public class EntryGroup {
     public EntryGroup() {
     }
 
-    public EntryGroup(long id, String name, int month, boolean isIntake, AppUser owner) {
+    public EntryGroup(long id, String name, boolean isIntake, AppUser owner) {
         this.isIntake = isIntake;
         this.owner = owner;
         this.name = name;
         this.id = id;
-        this.month = month;
     }
 
-    public EntryGroup(String name, int month, boolean isIntake, AppUser owner) {
+    public EntryGroup(String name, boolean isIntake, AppUser owner) {
         this.name = name;
-        this.month = month;
         this.isIntake = isIntake;
         this.owner = owner;
-    }
-
-    public int getMonth() {
-        return month;
-    }
-
-    public void setMonth(int month) {
-        this.month = month;
     }
 
     public long getId() {
@@ -98,7 +86,7 @@ public class EntryGroup {
         for (Entry entry : entries) {
             entryDtos.add(entry.toDto());
         }
-        return new EntryGroupDto(id, name, month, isIntake, entryDtos);
+        return new EntryGroupDto(id, name, isIntake, entryDtos);
     }
 
     @Override
@@ -106,7 +94,6 @@ public class EntryGroup {
         return "EntryGroup{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", month=" + month +
                 ", isIntake=" + isIntake +
                 ", entries=" + entries +
                 ", owner=" + owner +
