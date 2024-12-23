@@ -39,24 +39,29 @@ public class AuthenticationService {
     }
 
     public LoginResponseDto loginUser(LoginDto body) {
-        logger.debug(LogInfo.toJson(LogLevel.DEBUG, "AuthenticationService.loginUser", "", "", "Attempting to authenticate user", body.getUsername()));
+        if (logger.isDebugEnabled())
+            logger.debug(LogInfo.toJson(LogLevel.DEBUG, "AuthenticationService.loginUser", "", "", "Attempting to authenticate user", body.getUsername()));
         Authentication auth = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(body.getUsername(), body.getPassword()));
 
-        logger.info(LogInfo.toJson(LogLevel.INFO, "AuthenticationService.loginUser", "", "", "User authenticated successfully. Token generated", body.getUsername()));
+        if (logger.isInfoEnabled())
+            logger.info(LogInfo.toJson(LogLevel.INFO, "AuthenticationService.loginUser", "", "", "User authenticated successfully. Token generated", body.getUsername()));
         String token = tokenService.generateJwt(auth);
         return new LoginResponseDto(token);
     }
 
     public void registerUser(RegisterDto body) throws ConstraintException {
-        logger.debug(LogInfo.toJson(LogLevel.DEBUG, "AuthenticationService.registerUser", "", "", "Attempting to register user", body.getUsername()));
+        if (logger.isDebugEnabled())
+            logger.debug(LogInfo.toJson(LogLevel.DEBUG, "AuthenticationService.registerUser", "", "", "Attempting to register user", body.getUsername()));
         if (body.getUsername().isBlank() || body.getPassword().isBlank() || body.getName().isBlank()) {
-            logger.warn(LogInfo.toJson(LogLevel.WARNING, "AuthenticationService.registerUser", "IllegalArgumentException", "Username, password or name is blank", "Throw IllegalArgumentException", body.getUsername()));
+            if (logger.isWarnEnabled())
+                logger.warn(LogInfo.toJson(LogLevel.WARNING, "AuthenticationService.registerUser", "IllegalArgumentException", "Username, password or name is blank", "Throw IllegalArgumentException", body.getUsername()));
             throw new IllegalArgumentException("Username, password and name must not be empty");
         }
 
         if (appUserRepository.findByUsername(body.getUsername()).isPresent()) {
-            logger.warn(LogInfo.toJson(LogLevel.WARNING, "AuthenticationService.registerUser", "Username already present in the Database", "Username already taken", "Throw ConstraintException", body.getUsername()));
+            if (logger.isWarnEnabled())
+                logger.warn(LogInfo.toJson(LogLevel.WARNING, "AuthenticationService.registerUser", "Username already present in the Database", "Username already taken", "Throw ConstraintException", body.getUsername()));
             throw new ConstraintException("Username " + body.getUsername() + " is already taken");
         }
 
@@ -66,6 +71,7 @@ public class AuthenticationService {
         appUserRepository.save(new AppUser(
                 body.getName(), body.getUsername(), passwordEncoder.encode(body.getPassword()), roles
         ));
-        logger.info(LogInfo.toJson(LogLevel.INFO, "AuthenticationService.registerUser", "", "", "User registered successfully", body.getUsername()));
+        if (logger.isInfoEnabled())
+            logger.info(LogInfo.toJson(LogLevel.INFO, "AuthenticationService.registerUser", "", "", "User registered successfully", body.getUsername()));
     }
 }

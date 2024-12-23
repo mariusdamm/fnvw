@@ -33,10 +33,12 @@ public class AuthenticationController {
     public ResponseEntity<LoginResponseDto> loginUser(@RequestBody LoginDto body) {
         body.setUsername(body.getUsername().replaceAll("\\s", ""));
         body.setPassword(body.getPassword().replaceAll("\\s", ""));
-        logger.info(LogInfo.toJson(LogLevel.INFO, "AuthenticationController.loginUser", "", "", "Attempting to login user", body.getUsername()));
+        if (logger.isInfoEnabled())
+            logger.info(LogInfo.toJson(LogLevel.INFO, "AuthenticationController.loginUser", "", "", "Attempting to login user", body.getUsername()));
         try {
             LoginResponseDto dto = authenticationService.loginUser(body);
-            logger.info(LogInfo.toJson(LogLevel.INFO, "AuthenticationController.loginUser", "", "", "User successfully logged in and HttpStatus OK and data LoginResponseDto with JWT returned", body.getUsername()));
+            if (logger.isInfoEnabled())
+                logger.info(LogInfo.toJson(LogLevel.INFO, "AuthenticationController.loginUser", "", "", "User successfully logged in and HttpStatus OK and data LoginResponseDto with JWT returned", body.getUsername()));
             return ResponseEntity.status(HttpStatus.OK).body(dto);
         } catch (AuthenticationException e) {
             logger.warn(LogInfo.toJson(LogLevel.WARNING, "AuthenticationController.loginUser", "Login with username " + body.getUsername() + " failed", "The username or password is incorrect", "Return HttpStatus UNAUTHORIZED and data null", body.getUsername()));
@@ -48,13 +50,16 @@ public class AuthenticationController {
     public ResponseEntity<LoginResponseDto> registerUser(@RequestBody RegisterDto body) {
         body.setUsername(body.getUsername().replaceAll("\\s", ""));
         body.setPassword(body.getPassword().replaceAll("\\s", ""));
-        logger.info(LogInfo.toJson(LogLevel.INFO, "AuthenticationController.registerUser", "", "", "Attempting to register user", body.getUsername()));
+        if (logger.isInfoEnabled())
+            logger.info(LogInfo.toJson(LogLevel.INFO, "AuthenticationController.registerUser", "", "", "Attempting to register user", body.getUsername()));
         try {
             authenticationService.registerUser(body);
-            logger.info(LogInfo.toJson(LogLevel.INFO, "AuthenticationController.registerUser", "", "", "successfully created user", body.getUsername()));
+            if (logger.isInfoEnabled())
+                logger.info(LogInfo.toJson(LogLevel.INFO, "AuthenticationController.registerUser", "", "", "successfully created user", body.getUsername()));
             LoginDto loginDto = new LoginDto(body.getUsername(), body.getPassword());
             LoginResponseDto dto = authenticationService.loginUser(loginDto);
-            logger.info(LogInfo.toJson(LogLevel.INFO, "AuthenticationController.registerUser", "", "", "successfully logged in user. Return HttpStatus OK and data LoginResponseDto with JWT", body.getUsername()));
+            if (logger.isInfoEnabled())
+                logger.info(LogInfo.toJson(LogLevel.INFO, "AuthenticationController.registerUser", "", "", "successfully logged in user. Return HttpStatus OK and data LoginResponseDto with JWT", body.getUsername()));
             return ResponseEntity.status(HttpStatus.OK).body(dto);
         } catch (AuthenticationException e) {
             logger.warn(LogInfo.toJson(LogLevel.WARNING, "AuthenticationController.registerUser", "Could not login user", "AuthenticationException: Username or password is incorrect, although the user was just created with them", "Return HttpStatus UNAUTHORIZED and data null", body.getUsername()));

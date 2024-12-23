@@ -27,24 +27,28 @@ public class EntryGroupService {
 
     public EntryGroup addEntryGroup(EntryGroupDto body, AppUser user) throws MissingDataException, DataNotFoundException {
         if (user == null) {
-            logger.error(LogInfo.toJson(LogLevel.ERROR, "EntryGroupService.addEntryGroup", "AppUser user is null", "null was passed by calling function", "Throw DataNotFoundException", ""));
+            if (logger.isErrorEnabled())
+                logger.error(LogInfo.toJson(LogLevel.ERROR, "EntryGroupService.addEntryGroup", "AppUser user is null", "null was passed by calling function", "Throw DataNotFoundException", ""));
             throw new DataNotFoundException("By calling function passed user is null");
         }
 
         if (body == null) {
-            logger.warn(LogInfo.toJson(LogLevel.WARNING, "EntryGroupService.addEntryGroup", "MissingDataException", "Entry body is null", "Throw MissingDataException", user.getUsername()));
+            if (logger.isWarnEnabled())
+                logger.warn(LogInfo.toJson(LogLevel.WARNING, "EntryGroupService.addEntryGroup", "MissingDataException", "Entry body is null", "Throw MissingDataException", user.getUsername()));
             throw new MissingDataException("Entry body is null");
         }
         EntryGroup entryGroup = body.toEntryGroup();
         entryGroup.setOwner(user);
 
         entryGroupRepository.save(entryGroup);
-        logger.info(LogInfo.toJson(LogLevel.INFO, "EntryGroupService.addEntryGroup", "", "", "Entry group added successfully", user.getUsername()));
+        if (logger.isInfoEnabled())
+            logger.info(LogInfo.toJson(LogLevel.INFO, "EntryGroupService.addEntryGroup", "", "", "Entry group added successfully", user.getUsername()));
         return entryGroup;
     }
 
     public MonthDto getEntryGroupsOfUserInMonth(AppUser user, int month) {
-        logger.debug(LogInfo.toJson(LogLevel.DEBUG, "EntryGroupService.getEntryGroupsOfUserInMonth", "", "", "Getting entry groups for user in month", user.getUsername()));
+        if (logger.isDebugEnabled())
+            logger.debug(LogInfo.toJson(LogLevel.DEBUG, "EntryGroupService.getEntryGroupsOfUserInMonth", "", "", "Getting entry groups for user in month", user.getUsername()));
         MonthDto dto = new MonthDto(String.valueOf(month));
         List<EntryGroup> groups = entryGroupRepository.findByOwner(user);
 
@@ -60,24 +64,29 @@ public class EntryGroupService {
         }
 
         if (dto.getIntakeGroups().isEmpty() && dto.getSpendingGroups().isEmpty()) {
-            logger.warn(LogInfo.toJson(LogLevel.WARNING, "EntryGroupService.getEntryGroupsOfUserInMonth", "intakeGroups and spendingGroups are both empty lists", "No entry groups found for the user in the specified month", "Return null", user.getUsername()));
+            if (logger.isWarnEnabled())
+                logger.warn(LogInfo.toJson(LogLevel.WARNING, "EntryGroupService.getEntryGroupsOfUserInMonth", "intakeGroups and spendingGroups are both empty lists", "No entry groups found for the user in the specified month", "Return null", user.getUsername()));
             return null;
         }
 
-        logger.info(LogInfo.toJson(LogLevel.INFO, "EntryGroupService.getEntryGroupsOfUserInMonth", "", "", "Entry groups retrieved successfully", user.getUsername()));
+        if (logger.isInfoEnabled())
+            logger.info(LogInfo.toJson(LogLevel.INFO, "EntryGroupService.getEntryGroupsOfUserInMonth", "", "", "Entry groups retrieved successfully", user.getUsername()));
         return dto;
     }
 
     public EntryGroup updateEntryGroup(EntryGroupDto body) throws DataNotFoundException {
-        logger.debug(LogInfo.toJson(LogLevel.DEBUG, "EntryGroupService.updateEntryGroup", "", "", "Updating entry group with id " + body.getId(), ""));
+        if (logger.isDebugEnabled())
+            logger.debug(LogInfo.toJson(LogLevel.DEBUG, "EntryGroupService.updateEntryGroup", "", "", "Updating entry group with id " + body.getId(), ""));
         EntryGroup group = entryGroupRepository.findById(body.getId()).orElse(null);
         if (group == null) {
-            logger.error(LogInfo.toJson(LogLevel.ERROR, "EntryGroupService.updateEntryGroup", "EntryGroup group is null", "EntryGroup with id " + body.getId() + " could not be found in the database", "Throw DataNotFoundException", ""));
+            if (logger.isErrorEnabled())
+                logger.error(LogInfo.toJson(LogLevel.ERROR, "EntryGroupService.updateEntryGroup", "EntryGroup group is null", "EntryGroup with id " + body.getId() + " could not be found in the database", "Throw DataNotFoundException", ""));
             throw new DataNotFoundException("EntryGroup with id " + body.getId() + " could not be found");
         }
         group.setName(body.getName());
         group.setIsIntake(body.getIsIntake());
-        logger.info(LogInfo.toJson(LogLevel.INFO, "EntryGroupService.updateEntryGroup", "", "", "EntryGroup with id " + group.getId() + " updated successfully", ""));
+        if (logger.isInfoEnabled())
+            logger.info(LogInfo.toJson(LogLevel.INFO, "EntryGroupService.updateEntryGroup", "", "", "EntryGroup with id " + group.getId() + " updated successfully", ""));
         return entryGroupRepository.save(group);
     }
 }

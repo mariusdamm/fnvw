@@ -35,12 +35,14 @@ public class EntryService {
 
     public Entry addEntry(EntryDto body, AppUser user) throws DataNotFoundException, MissingDataException, ForbiddenDataException {
         if (user == null) {
-            logger.error(LogInfo.toJson(LogLevel.ERROR, "EntryService.addEntry", "AppUser user is null", "The AppUser passed by the calling function is null", "Throw DataNotFoundException", ""));
+            if (logger.isErrorEnabled())
+                logger.error(LogInfo.toJson(LogLevel.ERROR, "EntryService.addEntry", "AppUser user is null", "The AppUser passed by the calling function is null", "Throw DataNotFoundException", ""));
             throw new DataNotFoundException("Passed AppUser is null");
         }
 
         if (body == null) {
-            logger.warn(LogInfo.toJson(LogLevel.WARNING, "EntryService.addEntry", "Entry body is null", "No entry was passed", "Throw MissingDataException", user.getUsername()));
+            if (logger.isWarnEnabled())
+                logger.warn(LogInfo.toJson(LogLevel.WARNING, "EntryService.addEntry", "Entry body is null", "No entry was passed", "Throw MissingDataException", user.getUsername()));
             throw new MissingDataException("Entry body is null");
         }
         Entry entry = body.toEntry();
@@ -48,17 +50,20 @@ public class EntryService {
         EntryGroup group = entryGroupRepository.findById(body.getEntryGroupId()).orElse(null);
 
         if (group == null) {
-            logger.error(LogInfo.toJson(LogLevel.ERROR, "EntryService.addEntry", "Entrygroup type is null", "EntryGroup with id " + body.getEntryGroupId() + " could not be found in the database", "Throw DataNotFoundException", user.getUsername()));
+            if (logger.isErrorEnabled())
+                logger.error(LogInfo.toJson(LogLevel.ERROR, "EntryService.addEntry", "Entrygroup type is null", "EntryGroup with id " + body.getEntryGroupId() + " could not be found in the database", "Throw DataNotFoundException", user.getUsername()));
             throw new DataNotFoundException("EntryGroup with ID " + body.getEntryGroupId() + " could not be found in the database");
         }
         if (!appUserService.groupBelongsToUser(user, body.getEntryGroupId())) {
-            logger.warn(LogInfo.toJson(LogLevel.WARNING, "EntryService.addEntry", "appUserService.groupBelongsToUser returns false for EntryGroup with id " + body.getEntryGroupId(), "EntryGroup does not belong to user", "Throw ForbiddenDataException", user.getUsername()));
+            if (logger.isWarnEnabled())
+                logger.warn(LogInfo.toJson(LogLevel.WARNING, "EntryService.addEntry", "appUserService.groupBelongsToUser returns false for EntryGroup with id " + body.getEntryGroupId(), "EntryGroup does not belong to user", "Throw ForbiddenDataException", user.getUsername()));
             throw new ForbiddenDataException("EntryGroup with ID " + body.getEntryGroupId() + " does not belong to user " + user.getName());
         }
         entry.setGroup(group);
 
         entryRepository.save(entry);
-        logger.info(LogInfo.toJson(LogLevel.INFO, "EntryService.addEntry", "", "", "Entry added successfully", user.getUsername()));
+        if (logger.isInfoEnabled())
+            logger.info(LogInfo.toJson(LogLevel.INFO, "EntryService.addEntry", "", "", "Entry added successfully", user.getUsername()));
         return entry;
     }
 }

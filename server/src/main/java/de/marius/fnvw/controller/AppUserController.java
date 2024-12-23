@@ -28,15 +28,18 @@ public class AppUserController {
     @GetMapping("/self")
     public ResponseEntity<AppUserDto> getSelf() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        logger.debug(LogInfo.toJson(LogLevel.DEBUG, "AppUserController.getSelf", "", "", "username " + username + " extracted from SecurityContext", username));
+        if (logger.isDebugEnabled())
+            logger.debug(LogInfo.toJson(LogLevel.DEBUG, "AppUserController.getSelf", "", "", "username " + username + " extracted from SecurityContext", username));
 
         AppUser user = appUserService.getUserByUsername(username);
         if (user == null) {
-            logger.error(LogInfo.toJson(LogLevel.ERROR, "AppUserController.getSelf", "user is null", "User " + username + " not found in the database", "return HttpStatus NOT_FOUND and data null", username));
+            if (logger.isErrorEnabled())
+                logger.error(LogInfo.toJson(LogLevel.ERROR, "AppUserController.getSelf", "user is null", "User " + username + " not found in the database", "return HttpStatus NOT_FOUND and data null", username));
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
 
-        logger.info(LogInfo.toJson(LogLevel.INFO, "AppUserController.getSelf", "User " + username + " retrieved", "", "return HttpStatus OK and data UserDto of the user", username));
+        if (logger.isInfoEnabled())
+            logger.info(LogInfo.toJson(LogLevel.INFO, "AppUserController.getSelf", "User " + username + " retrieved", "", "return HttpStatus OK and data UserDto of the user", username));
         return ResponseEntity.status(HttpStatus.OK).body(user.toDto());
     }
 }

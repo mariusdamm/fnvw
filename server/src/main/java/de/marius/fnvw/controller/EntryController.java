@@ -36,11 +36,13 @@ public class EntryController {
     @PostMapping("")
     public ResponseEntity<EntryDto> addEntry(@RequestBody EntryDto body) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        logger.debug(LogInfo.toJson(LogLevel.DEBUG, "EntryController.addEntry", "", "", "Username retrieved", username));
+        if (logger.isDebugEnabled())
+            logger.debug(LogInfo.toJson(LogLevel.DEBUG, "EntryController.addEntry", "", "", "Username retrieved", username));
         AppUser user = appUserService.getUserByUsername(username);
         try {
             Entry entry = entryService.addEntry(body, user);
-            logger.info(LogInfo.toJson(LogLevel.INFO, "EntryController.addEntry", "", "", "Entry created with id " + entry.getId() + ". Return HttpStatus CREATED and data entry as EntryDto", username));
+            if (logger.isInfoEnabled())
+                logger.info(LogInfo.toJson(LogLevel.INFO, "EntryController.addEntry", "", "", "Entry created with id " + entry.getId() + ". Return HttpStatus CREATED and data entry as EntryDto", username));
             return ResponseEntity.status(HttpStatus.CREATED).body(entry.toDto());
         } catch (DataNotFoundException e) {
             logger.error(LogInfo.toJson(LogLevel.ERROR, "EntryController.addEntry", e.getMessage(), "The username / entrytype does not exist in the database", "Return HttpStatus NOT_FOUND and data null", username));
