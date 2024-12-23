@@ -14,16 +14,16 @@ public class EntryGroup {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "entrygroup_id")
-    long id;
+    private long id;
     @Column(name = "entrygroup_name", nullable = false)
-    String name;
+    private String name;
     @Column(name = "entrygroup_isintake", nullable = false)
-    boolean isIntake;
+    private boolean isIntake;
     @OneToMany(mappedBy = "group")
-    List<Entry> entries = new ArrayList<>();
+    private List<Entry> entries = new ArrayList<>();
     @ManyToOne()
     @JoinColumn(name = "entrytype_owner")
-    AppUser owner;
+    private AppUser owner;
 
     public EntryGroup() {
     }

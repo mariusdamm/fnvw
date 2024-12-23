@@ -7,10 +7,10 @@ import java.util.List;
 
 public class EntryGroupDto {
 
-    long id;
-    String name;
-    boolean isIntake;
-    List<EntryDto> entries = new ArrayList<>();
+    private long id;
+    private String name;
+    private boolean isIntake;
+    private List<EntryDto> entries = new ArrayList<>();
 
     public EntryGroupDto() {
     }
