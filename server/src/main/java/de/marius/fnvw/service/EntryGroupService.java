@@ -55,9 +55,9 @@ public class EntryGroupService {
 
         for (EntryGroup group : groups) {
             if (group.getIsIntake() && !group.getEntries().isEmpty())
-                dto.addIntakeGroup(group.toMonthGroupDto());
+                dto.addIntakeGroup(group.toMonthGroupDto(month));
             else if (!group.getIsIntake() && !group.getEntries().isEmpty())
-                dto.addSpendingGroup(group.toMonthGroupDto());
+                dto.addSpendingGroup(group.toMonthGroupDto(month));
         }
 
         if (dto.getIntakeGroups().isEmpty() && dto.getSpendingGroups().isEmpty()) {

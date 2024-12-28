@@ -90,11 +90,10 @@ public class EntryGroup {
         return new EntryGroupDto(id, name, isIntake, entryDtos);
     }
 
-    public EntryGroupDto toMonthGroupDto() {
+    public EntryGroupDto toMonthGroupDto(LocalDateTime month) {
         List<EntryDto> entryDtos = new ArrayList<>();
-        LocalDateTime now = LocalDateTime.now();
         for (Entry entry : entries) {
-            if (entry.getDate().getMonth().equals(now.getMonth()))
+            if (entry.getDate().getYear() == month.getYear() && entry.getDate().getMonth().equals(month.getMonth()))
                 entryDtos.add(entry.toDto());
         }
         return new EntryGroupDto(id, name, isIntake, entryDtos);
