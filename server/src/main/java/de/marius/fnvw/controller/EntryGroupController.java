@@ -18,7 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.Month;
+import java.time.LocalDateTime;
 
 @RestController
 @RequestMapping("/entrygroup")
@@ -76,7 +76,7 @@ public class EntryGroupController {
     }
 
     @GetMapping("/{month}")
-    public ResponseEntity<MonthDto> getEntryGroupsOfUserInMonth(@PathVariable Month month) {
+    public ResponseEntity<MonthDto> getEntryGroupsOfUserInMonth(@PathVariable LocalDateTime month) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         if (logger.isDebugEnabled())
             logger.debug(LogInfo.toJson(LogLevel.DEBUG, "EntryGroupController.getEntryGroupsOfUserInMonth", "", "", "Username retrieved", username));
