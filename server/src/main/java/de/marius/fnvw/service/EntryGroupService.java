@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -46,10 +47,10 @@ public class EntryGroupService {
         return entryGroup;
     }
 
-    public MonthDto getEntryGroupsOfUserInMonth(AppUser user, int month) {
+    public MonthDto getEntryGroupsOfUserInMonth(AppUser user, LocalDateTime month) {
         if (logger.isDebugEnabled())
             logger.debug(LogInfo.toJson(LogLevel.DEBUG, "EntryGroupService.getEntryGroupsOfUserInMonth", "", "", "Getting entry groups for user in month", user.getUsername()));
-        MonthDto dto = new MonthDto(String.valueOf(month));
+        MonthDto dto = new MonthDto(month);
         List<EntryGroup> groups = entryGroupRepository.findByOwner(user);
 
         for (EntryGroup group : groups) {
