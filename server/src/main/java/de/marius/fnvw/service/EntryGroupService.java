@@ -54,14 +54,10 @@ public class EntryGroupService {
         List<EntryGroup> groups = entryGroupRepository.findByOwner(user);
 
         for (EntryGroup group : groups) {
-            if (group.getMonth() != month) {
-                continue;
-            }
-
-            if (group.getIsIntake())
-                dto.addIntakeGroup(group.toDto());
-            else
-                dto.addSpendingGroup(group.toDto());
+            if (group.getIsIntake() && !group.getEntries().isEmpty())
+                dto.addIntakeGroup(group.toMonthGroupDto());
+            else if (!group.getIsIntake() && !group.getEntries().isEmpty())
+                dto.addSpendingGroup(group.toMonthGroupDto());
         }
 
         if (dto.getIntakeGroups().isEmpty() && dto.getSpendingGroups().isEmpty()) {

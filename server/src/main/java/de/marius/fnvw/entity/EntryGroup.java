@@ -4,6 +4,7 @@ import de.marius.fnvw.dto.EntryDto;
 import de.marius.fnvw.dto.EntryGroupDto;
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -85,6 +86,16 @@ public class EntryGroup {
         List<EntryDto> entryDtos = new ArrayList<>();
         for (Entry entry : entries) {
             entryDtos.add(entry.toDto());
+        }
+        return new EntryGroupDto(id, name, isIntake, entryDtos);
+    }
+
+    public EntryGroupDto toMonthGroupDto() {
+        List<EntryDto> entryDtos = new ArrayList<>();
+        LocalDateTime now = LocalDateTime.now();
+        for (Entry entry : entries) {
+            if (entry.getDate().getMonth().equals(now.getMonth()))
+                entryDtos.add(entry.toDto());
         }
         return new EntryGroupDto(id, name, isIntake, entryDtos);
     }
