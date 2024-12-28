@@ -1,27 +1,27 @@
 package de.marius.fnvw.dto;
 
-import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MonthDto {
 
-    private LocalDateTime month;
+    private Month month;
     private List<EntryGroupDto> intakeGroups = new ArrayList<>();
     private List<EntryGroupDto> spendingGroups = new ArrayList<>();
 
-    public MonthDto(LocalDateTime month) {
+    public MonthDto(Month month) {
         this.month = month;
     }
 
     public MonthDto() {
     }
 
-    public LocalDateTime getMonth() {
+    public Month getMonth() {
         return month;
     }
 
-    public void setMonth(LocalDateTime month) {
+    public void setMonth(Month month) {
         this.month = month;
     }
 
