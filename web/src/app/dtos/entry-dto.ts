@@ -3,4 +3,5 @@ export interface EntryDto{
   name: string;
   value: number;
   entryGroupId: number;
+  date: Date;
 }
