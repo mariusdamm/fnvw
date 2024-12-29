@@ -19,6 +19,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @RestController
 @RequestMapping("/entrygroup")
@@ -73,6 +74,16 @@ public class EntryGroupController {
             logger.error(LogInfo.toJson(LogLevel.ERROR, "EntryGroupController.updateEntryGroup", e.getMessage(), "The entryGroup does not exist in the database", "Return HttpStatus NOT_FOUND and data null", username));
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
+    }
+
+    @GetMapping("")
+    public ResponseEntity<List<EntryGroupDto>> getAllGroupsOfUser() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (logger.isDebugEnabled())
+            logger.debug(LogInfo.toJson(LogLevel.DEBUG, "EntryGroupController.getAllGroupsOfUser", "", "", "Username retrieved", username));
+        AppUser user = userService.getUserByUsername(username);
+        List<EntryGroupDto> groups = entryGroupService.getEntryGroupDtosOfUser(user);
+        return ResponseEntity.status(HttpStatus.OK).body(groups);
     }
 
     @GetMapping("/{month}")

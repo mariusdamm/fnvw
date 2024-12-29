@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -85,5 +86,30 @@ public class EntryGroupService {
         if (logger.isInfoEnabled())
             logger.info(LogInfo.toJson(LogLevel.INFO, "EntryGroupService.updateEntryGroup", "", "", "EntryGroup with id " + group.getId() + " updated successfully", ""));
         return entryGroupRepository.save(group);
+    }
+
+    public List<EntryGroupDto> getEntryGroupDtosOfUser(AppUser user) {
+        if (logger.isDebugEnabled())
+            logger.debug(LogInfo.toJson(LogLevel.DEBUG, "EntryGroupService.getEntryGroupDtosOfUser", "", "", "Getting entry groups of user", user.getUsername()));
+        List<EntryGroup> groups = entryGroupRepository.findByOwner(user);
+        if (groups.isEmpty()) {
+            if (logger.isWarnEnabled())
+                logger.warn(LogInfo.toJson(LogLevel.WARNING, "EntryGroupService.getEntryGroupDtosOfUser", "EntryGroups of user is empty", "User has no groups", "returning empty list", user.getUsername()));
+            return List.of();
+        }
+
+        List<EntryGroupDto> groupDtos = new ArrayList<>();
+        for (EntryGroup group : groups) {
+            if (logger.isDebugEnabled())
+                logger.debug(LogInfo.toJson(LogLevel.DEBUG, "EntryGroupService.getEntryGroupDtosOfUser", "", "", "Adding group " + group.getName() + " to list as dto" , user.getUsername()));
+            group.setEntries(List.of());
+            EntryGroupDto dto = group.toDto();
+            groupDtos.add(dto);
+            if (logger.isDebugEnabled())
+                logger.debug(LogInfo.toJson(LogLevel.DEBUG, "EntryGroupService.getEntryGroupDtosOfUser", "", "", "Added group " + group.getName() + " to list as dto" , user.getUsername()));
+        }
+        if (logger.isDebugEnabled())
+            logger.debug(LogInfo.toJson(LogLevel.DEBUG, "EntryGroupService.getEntryGroupDtosOfUser", "", "", "Returning EntryGroupDtos (emptied) of user ", user.getUsername()));
+        return groupDtos;
     }
 }
