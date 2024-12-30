@@ -53,16 +53,14 @@ class TestEntryGroupService {
     @Transactional
     void test_add_valid_entrygroup() throws DataNotFoundException, MissingDataException {
         String testEntryGroupName = "Test Groupname";
-        int testEntryGroupMonth = 202409;
         boolean tesEntryGroupIsIntake = true;
-        EntryGroupDto group = new EntryGroupDto(testEntryGroupName, testEntryGroupMonth, tesEntryGroupIsIntake);
+        EntryGroupDto group = new EntryGroupDto(testEntryGroupName, tesEntryGroupIsIntake);
 
         EntryGroup result = entryGroupService.addEntryGroup(group, testUser);
 
         assertNotNull(result);
-        assertEquals(result.getName(), testEntryGroupName);
-        assertEquals(result.getMonth(), testEntryGroupMonth);
-        assertEquals(result.getOwner().getId(), testUser.getId());
+        assertEquals(testEntryGroupName, result.getName());
+        assertEquals(testUser.getId(), result.getOwner().getId());
     }
 
     @Test
