@@ -1,11 +1,11 @@
 import {EntrygroupDto} from "./entrygroup-dto";
 
 export class MonthDto {
-  month: string = "";
+  month: Date;
   intakeGroups: EntrygroupDto[] = [];
   spendingGroups: EntrygroupDto[] = [];
 
-  constructor(month: string) {
+  constructor(month: Date) {
     this.month = month;
   }
 }
