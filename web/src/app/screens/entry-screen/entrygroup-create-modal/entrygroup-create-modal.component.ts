@@ -5,7 +5,6 @@ import {AuthService} from "../../../services/auth.service";
 import {EntrygroupCreateDto} from "../../../dtos/entrygroup-create-dto";
 import {MonthProviderService} from "../../../services/month-provider.service";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {NgForOf} from "@angular/common";
 
 declare let bootstrap: any;
 
@@ -15,7 +14,6 @@ declare let bootstrap: any;
   imports: [
     ReactiveFormsModule,
     FormsModule,
-    NgForOf
   ],
   templateUrl: './entrygroup-create-modal.component.html',
   styleUrl: './entrygroup-create-modal.component.css'
@@ -36,10 +34,10 @@ export class EntrygroupCreateModalComponent {
   @Input() isIntake?: boolean;
 
   constructor(
-    private utilService: UtilService,
-    private axiosService: AxiosService,
-    private authService: AuthService,
-    private monthProviderService: MonthProviderService,
+    private readonly utilService: UtilService,
+    private readonly axiosService: AxiosService,
+    private readonly authService: AuthService,
+    private readonly monthProviderService: MonthProviderService,
   ) {
   }
 
@@ -56,7 +54,7 @@ export class EntrygroupCreateModalComponent {
     if (groupName.trim() === '' || this.isIntake === undefined)
       return;
 
-    const group = new EntrygroupCreateDto(groupName, Number(this.monthstring), this.isIntake);
+    const group = new EntrygroupCreateDto(groupName, this.isIntake);
 
     this.axiosService.request(
       "POST",
