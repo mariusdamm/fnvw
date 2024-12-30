@@ -1,4 +1,4 @@
-import {Component, ElementRef, Input, ViewChild} from '@angular/core';
+import {Component, ElementRef, ViewChild} from '@angular/core';
 import {UtilService} from "../../../services/util.service";
 import {AxiosService} from "../../../services/axios.service";
 import {AuthService} from "../../../services/auth.service";
@@ -20,13 +20,10 @@ declare let bootstrap: any;
 export class EntrygroupCreateModalComponent {
 
   @ViewChild('groupNameInput') entrygroupModalNameInput!: ElementRef<HTMLInputElement>;
-
-  @ViewChild('groupIntakeButton') entrygroupModalIntakeButton!: ElementRef<HTMLInputElement>;
-  @ViewChild('groupSpendingButton') entrygroupModalSpendingButton!: ElementRef<HTMLInputElement>;
-  @ViewChild('groupIntakeLabel') entrygroupModalIntakeLabel!: ElementRef<HTMLLabelElement>;
-  @ViewChild('groupSpendingLabel') entrygroupModalSpendingLabel!: ElementRef<HTMLLabelElement>;
-
-  @Input() isIntake?: boolean;
+  @ViewChild('groupIntakeButton') intakeButton!: ElementRef<HTMLInputElement>;
+  @ViewChild('groupSpendingButton') spendingButton!: ElementRef<HTMLInputElement>;
+  @ViewChild('groupIntakeLabel') intakeLabel!: ElementRef<HTMLLabelElement>;
+  @ViewChild('groupSpendingLabel') spendingLabel!: ElementRef<HTMLLabelElement>;
 
   constructor(
     private readonly utilService: UtilService,
@@ -44,11 +41,14 @@ export class EntrygroupCreateModalComponent {
       this.utilService.highlightInvalidInput(this.entrygroupModalNameInput.nativeElement);
     }
 
+    let isIntake: boolean = true;
+    if (this.spendingButton.nativeElement.checked)
+      isIntake = false;
 
-    if (groupName.trim() === '' || this.isIntake === undefined)
+    if (groupName.trim() === '')
       return;
 
-    const group = new EntrygroupCreateDto(groupName, this.isIntake);
+    const group = new EntrygroupCreateDto(groupName, isIntake);
 
     this.axiosService.request(
       "POST",
@@ -60,14 +60,14 @@ export class EntrygroupCreateModalComponent {
       if (group === null)
         throw new Error('Group is null. An Error happened');
 
-      const bsCollapse = new bootstrap.Collapse('#postGroupSuccessCollapse_' + this.isIntake, {});
+      const bsCollapse = new bootstrap.Collapse('#postGroupSuccessCollapse', {});
       bsCollapse.show();
       setTimeout(() => bsCollapse.hide(), 3000);
     }).catch(error => {
       if (error.response.status === 401)
         this.authService.deleteJwtToken();
 
-      const bsCollapse = new bootstrap.Collapse('#postGroupDangerCollapse_' + this.isIntake, {});
+      const bsCollapse = new bootstrap.Collapse('#postGroupDangerCollapse', {});
       bsCollapse.show();
       setTimeout(() => bsCollapse.hide(), 3000);
     });
