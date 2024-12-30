@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MonthDto} from "../../dtos/month-dto";
-import {NgForOf, NgIf} from "@angular/common";
+import {NgForOf} from "@angular/common";
 import {AxiosService} from "../../services/axios.service";
 import {AuthService} from "../../services/auth.service";
 import {UtilService} from "../../services/util.service";
@@ -15,7 +15,6 @@ import {EntrygroupCardComponent} from "./entrygroup-card/entrygroup-card.compone
   standalone: true,
   imports: [
     NgForOf,
-    NgIf,
     EntrygroupCreateModalComponent,
     MonthAddModalComponent,
     EntrygroupCardComponent

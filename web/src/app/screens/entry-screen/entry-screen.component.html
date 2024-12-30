@@ -4,10 +4,9 @@
   <div *ngFor="let month of months">
 
     <span class="badge text-bg-black mb-1 me-1">
-      {{ month.month.substring(4, 6) }}. {{ month.month.substring(0, 4) }}
+      {{ month.month.getMonth() + 1 }}. {{ month.month.getFullYear() }}
     </span>
-    <span *ngIf="month.month !== ''" class="badge mb-1"
-          [class]="getDiffBadgeClass(month)">
+    <span class="badge mb-1" [class]="getDiffBadgeClass(month)">
       {{
             (parseFloat((this.utilService.calcSumOfAllGroups(month.intakeGroups) / 100).toFixed(2)) -
                 parseFloat((this.utilService.calcSumOfAllGroups(month.spendingGroups) / 100).toFixed(2))
@@ -25,7 +24,7 @@
             }}€
         </span></h5>
         </div>
-        <app-entrygroup-create-modal [isIntake]="true" [monthstring]="wholeMonthString"></app-entrygroup-create-modal>
+        <app-entrygroup-create-modal [isIntake]="true"></app-entrygroup-create-modal>
       </div>
       <app-entrygroup-card class="mt-2 col-sm-6 col-md-4 col-xl-3" *ngFor="let group of month.intakeGroups"
                            [group]="group"></app-entrygroup-card>
@@ -43,7 +42,7 @@
             }}€
         </span></h5>
         </div>
-        <app-entrygroup-create-modal [isIntake]="false" [monthstring]="wholeMonthString"></app-entrygroup-create-modal>
+        <app-entrygroup-create-modal [isIntake]="false"></app-entrygroup-create-modal>
       </div>
       <app-entrygroup-card class="mt-2 col-sm-6 col-md-4 col-xl-3" *ngFor="let group of month.spendingGroups"
                            [group]="group"></app-entrygroup-card>
