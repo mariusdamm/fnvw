@@ -21,12 +21,16 @@ export class MonthProviderService {
     this._months.next([...this._months.getValue(), month]);
   }
 
-  hasMonth(month: string): boolean {
-    return this._months.getValue().find(m => m.month === month) !== undefined;
+  hasMonth(month: Date): boolean {
+    return this._months.getValue().find(
+      m => m.month.getFullYear() === month.getFullYear() && m.month.getMonth() === month.getMonth()
+    ) !== undefined;
   }
 
   updateMonth(month: MonthDto): boolean {
-    const index = this._months.getValue().findIndex(m => m.month === month.month);
+    const index = this._months.getValue().findIndex(
+      m => m.month.getFullYear() === month.month.getFullYear() && m.month.getMonth() === month.month.getMonth()
+    );
     if (index === -1)
       return false;
 
@@ -36,8 +40,10 @@ export class MonthProviderService {
     return true;
   }
 
-  getMonth(month: string): MonthDto | undefined {
-    return this._months.getValue().find(m => m.month === month);
+  getMonth(month: Date): MonthDto | undefined {
+    return this._months.getValue().find(
+      m => m.month.getFullYear() === month.getFullYear() && m.month.getMonth() === month.getMonth()
+    );
   }
 
   addEntryToGroup(entry: EntryDto, groupId: number) {
