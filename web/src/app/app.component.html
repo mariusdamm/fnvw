@@ -8,8 +8,10 @@
 
       <!-- Nav -->
       <ul *ngIf="isLoggedIn === true" class="nav" id="headerNav">
-        <li><a class="nav-link px-2 text-white" routerLink="/dashboard">Dashboard</a></li>
-        <li><a class="nav-link px-2 text-white" routerLink="/entries">Einträge</a></li>
+        <li><a [ngClass]="isActive('/dashboard') ? 'text-white': 'text-white-50'"
+               class="nav-link px-2" routerLink="/dashboard">Dashboard</a></li>
+        <li><a [ngClass]="isActive('/entries') ? 'text-white': 'text-white-50'"
+               class="nav-link px-2" routerLink="/entries">Einträge</a></li>
       </ul>
     </div>
 
