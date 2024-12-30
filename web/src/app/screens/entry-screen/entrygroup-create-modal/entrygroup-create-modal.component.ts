@@ -25,11 +25,7 @@ export class EntrygroupCreateModalComponent {
   @ViewChild('groupSpendingButton') entrygroupModalSpendingButton!: ElementRef<HTMLInputElement>;
   @ViewChild('groupIntakeLabel') entrygroupModalIntakeLabel!: ElementRef<HTMLLabelElement>;
   @ViewChild('groupSpendingLabel') entrygroupModalSpendingLabel!: ElementRef<HTMLLabelElement>;
-  currentYear: number = new Date().getFullYear();
-  currentMonth: number = new Date().getMonth() + 1;
 
-  @Input() monthstring: string = this.currentYear.toString() +
-    (this.currentMonth > 9 ? '' : '0') + this.currentMonth.toString();
   @Input() isIntake?: boolean;
 
   constructor(
@@ -64,16 +60,14 @@ export class EntrygroupCreateModalComponent {
       if (group === null)
         throw new Error('Group is null. An Error happened');
 
-      const bsCollapse = new bootstrap.Collapse('#postGroupSuccessCollapse_'
-        + this.monthstring.toString() + this.isIntake, {});
+      const bsCollapse = new bootstrap.Collapse('#postGroupSuccessCollapse_' + this.isIntake, {});
       bsCollapse.show();
       setTimeout(() => bsCollapse.hide(), 3000);
     }).catch(error => {
       if (error.response.status === 401)
         this.authService.deleteJwtToken();
 
-      const bsCollapse = new bootstrap.Collapse('#postGroupDangerCollapse_'
-        + this.monthstring.toString() + this.isIntake, {});
+      const bsCollapse = new bootstrap.Collapse('#postGroupDangerCollapse_' + this.isIntake, {});
       bsCollapse.show();
       setTimeout(() => bsCollapse.hide(), 3000);
     });

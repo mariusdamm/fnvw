@@ -1,10 +1,10 @@
 <button type="button" class="btn btn-black tooltipbox" data-bs-toggle="modal"
-        [attr.data-bs-target]="'#addGroupModal_' + isIntake + monthstring">
+        [attr.data-bs-target]="'#addGroupModal_' + isIntake">
   <span class="badge tooltiptext tooltiptext-left">Gruppe hinzufügen</span>
   <i class="bi bi-collection"></i>
 </button>
 
-<div class="modal fade" [id]="'addGroupModal_' + isIntake + monthstring" data-bs-backdrop="static" tabindex="-1"
+<div class="modal fade" [id]="'addGroupModal_' + isIntake" data-bs-backdrop="static" tabindex="-1"
      aria-labelledby="addGroupModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable">
     <div class="modal-content">
@@ -28,12 +28,12 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           <button type="submit" class="btn btn-black">Gruppe speichern</button>
-          <div class="collapse w-100" [id]="'postGroupSuccessCollapse_' + monthstring.toString() + isIntake">
+          <div class="collapse w-100" [id]="'postGroupSuccessCollapse_' + isIntake">
             <div class="alert alert-success m-0" role="alert">
               Gruppe erfolgreich erstellt!
             </div>
           </div>
-          <div class="collapse w-100" [id]="'postGroupDangerCollapse_' + monthstring.toString() + isIntake">
+          <div class="collapse w-100" [id]="'postGroupDangerCollapse_' + isIntake">
             <div class="alert alert-danger m-0" role="alert">
               Es ist etwas schiefgelaufen...
             </div>
