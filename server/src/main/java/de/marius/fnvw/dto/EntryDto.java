@@ -54,10 +54,6 @@ public class EntryDto {
     this.entryGroupId = entryGroupId;
   }
 
-  public void setEntryGroupId(int entryGroupId) {
-    this.entryGroupId = entryGroupId;
-  }
-
   public long getId() {
     return id;
   }
