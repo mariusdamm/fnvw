@@ -15,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,11 +50,10 @@ class TestEntryService {
         String testUserPwd = "test_pwd";
 
         String testGroupName = "test group";
-        int testGroupMonth = 202407;
         boolean testGroupIsIntake = true;
 
         testUser = appUserRepository.save(new AppUser(testUserName, testUserUsername, passwordEncoder.encode(testUserPwd), roles));
-        testGroup = entryGroupRepository.save(new EntryGroup(testGroupName, testGroupMonth, testGroupIsIntake, testUser));
+        testGroup = entryGroupRepository.save(new EntryGroup(testGroupName, testGroupIsIntake, testUser));
     }
 
     @Test
@@ -61,7 +61,7 @@ class TestEntryService {
     void test_add_valid_entry() throws DataNotFoundException, MissingDataException, ForbiddenDataException {
         String testEntryName = "test entry";
         int testEntryValue = 1150;
-        EntryDto entryDto = new EntryDto(testEntryName, testEntryValue, testGroup.getId());
+        EntryDto entryDto = new EntryDto(testEntryName, testEntryValue, LocalDateTime.now(), testGroup.getId());
 
         Entry result = entryService.addEntry(entryDto, testUser);
 
