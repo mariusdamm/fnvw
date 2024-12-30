@@ -94,8 +94,8 @@ public class EntryGroupController {
         AppUser user = userService.getUserByUsername(username);
         MonthDto monthDto = entryGroupService.getEntryGroupsOfUserInMonth(user, month);
         if (monthDto == null) {
-            if (logger.isErrorEnabled())
-                logger.error(LogInfo.toJson(LogLevel.ERROR, "EntryGroupController.getEntryGroupsOfUserInMonth", "MonthDto is null", "No entry groups found for the user in the specified month", "Return HttpStatus NOT_FOUND and data null", username));
+            if (logger.isWarnEnabled())
+                logger.warn(LogInfo.toJson(LogLevel.WARNING, "EntryGroupController.getEntryGroupsOfUserInMonth", "MonthDto is null", "No entry groups found for the user in the specified month", "Return HttpStatus NOT_FOUND and data null", username));
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
         if (logger.isInfoEnabled())
