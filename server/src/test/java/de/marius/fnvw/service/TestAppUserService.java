@@ -17,6 +17,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,23 +63,21 @@ class TestAppUserService {
         AppUser testUser2 = appUserRepository.save(new AppUser(testUserName2, testUserUsername2, passwordEncoder.encode(testUserPwd2), roles));
 
         String testEntryGroupName1 = "Test Groupname1";
-        int testEntryGroupMonth1 = 202409;
         boolean tesEntryGroupIsIntake1 = true;
-        EntryGroupDto groupDto1 = new EntryGroupDto(testEntryGroupName1, testEntryGroupMonth1, tesEntryGroupIsIntake1);
+        EntryGroupDto groupDto1 = new EntryGroupDto(testEntryGroupName1, tesEntryGroupIsIntake1);
         String testEntryGroupName2 = "Test Groupname2";
-        int testEntryGroupMonth2 = 202409;
         boolean tesEntryGroupIsIntake2 = false;
-        EntryGroupDto groupDto2 = new EntryGroupDto(testEntryGroupName2, testEntryGroupMonth2, tesEntryGroupIsIntake2);
+        EntryGroupDto groupDto2 = new EntryGroupDto(testEntryGroupName2, tesEntryGroupIsIntake2);
 
         groupOfUser1 = entryGroupService.addEntryGroup(groupDto1, testUser1);
         groupOfUser2 = entryGroupService.addEntryGroup(groupDto2, testUser2);
 
         String testEntryName1 = "test entry1";
         int testEntryValue1 = 1150;
-        EntryDto entryDto1 = new EntryDto(testEntryName1, testEntryValue1, groupOfUser1.getId());
+        EntryDto entryDto1 = new EntryDto(testEntryName1, testEntryValue1, LocalDateTime.now(), groupOfUser1.getId());
         String testEntryName2 = "test entry2";
         int testEntryValue2 = 1150;
-        EntryDto entryDto2 = new EntryDto(testEntryName2, testEntryValue2, groupOfUser2.getId());
+        EntryDto entryDto2 = new EntryDto(testEntryName2, testEntryValue2, LocalDateTime.now(), groupOfUser2.getId());
 
         entryOfUser1 = entryService.addEntry(entryDto1, testUser1);
         entryOfUser2 = entryService.addEntry(entryDto2, testUser2);
