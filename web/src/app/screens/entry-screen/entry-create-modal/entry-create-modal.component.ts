@@ -5,7 +5,6 @@ import {EntryCreateDto} from "../../../dtos/entry-create-dto";
 import {AuthService} from "../../../services/auth.service";
 import {MonthProviderService} from "../../../services/month-provider.service";
 import {UtilService} from "../../../services/util.service";
-import {NgForOf} from "@angular/common";
 import {EntrygroupDto} from "../../../dtos/entrygroup-dto";
 
 declare let bootstrap: any;
@@ -15,7 +14,6 @@ declare let bootstrap: any;
   standalone: true,
   imports: [
     FormsModule,
-    NgForOf
   ],
   templateUrl: './entry-create-modal.component.html',
   styleUrl: './entry-create-modal.component.css'
@@ -28,10 +26,10 @@ export class EntryCreateModalComponent {
   @Input() entryGroup?: EntrygroupDto;
 
   constructor(
-    private axiosService: AxiosService,
-    private authService: AuthService,
-    private monthProviderService: MonthProviderService,
-    private utilService: UtilService,
+    private readonly axiosService: AxiosService,
+    private readonly authService: AuthService,
+    private readonly monthProviderService: MonthProviderService,
+    private readonly utilService: UtilService,
   ) {
   }
 
@@ -50,7 +48,7 @@ export class EntryCreateModalComponent {
       return;
     }
 
-    const entryDto = new EntryCreateDto(entryName, entryValue, this.entryGroup.id);
+    const entryDto = new EntryCreateDto(entryName, entryValue, this.entryGroup.id, new Date());
 
     this.axiosService.request(
       "POST",
@@ -66,14 +64,14 @@ export class EntryCreateModalComponent {
         throw new Error('EntryGroupId passed by parent is undefined');
 
       this.monthProviderService.addEntryToGroup(entry, this.entryGroup.id);
-      const bsCollapse = new bootstrap.Collapse('#postEntrySuccessCollapse_' + this.entryGroup?.month.toString() + this.entryGroup?.id.toString(), {});
+      const bsCollapse = new bootstrap.Collapse('#postEntrySuccessCollapse_' + this.entryGroup?.id.toString(), {});
       bsCollapse.show();
       setTimeout(() => bsCollapse.hide(), 3000);
     }).catch(error => {
       if (error.response.status === 401)
         this.authService.deleteJwtToken();
 
-      const bsCollapse = new bootstrap.Collapse('#postEntryDangerCollapse_' + this.entryGroup?.month.toString() + this.entryGroup?.id.toString(), {});
+      const bsCollapse = new bootstrap.Collapse('#postEntryDangerCollapse_' + this.entryGroup?.id.toString(), {});
       bsCollapse.show();
       setTimeout(() => bsCollapse.hide(), 3000);
     });
