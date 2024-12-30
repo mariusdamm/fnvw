@@ -7,7 +7,6 @@ import {UtilService} from "../../services/util.service";
 import {Subscription} from "rxjs";
 import {MonthProviderService} from "../../services/month-provider.service";
 import {EntrygroupCreateModalComponent} from "./entrygroup-create-modal/entrygroup-create-modal.component";
-import {EntryCreateModalComponent} from "./entry-create-modal/entry-create-modal.component";
 import {MonthAddModalComponent} from "./month-add-modal/month-add-modal.component";
 import {EntrygroupCardComponent} from "./entrygroup-card/entrygroup-card.component";
 
@@ -18,7 +17,6 @@ import {EntrygroupCardComponent} from "./entrygroup-card/entrygroup-card.compone
     NgForOf,
     NgIf,
     EntrygroupCreateModalComponent,
-    EntryCreateModalComponent,
     MonthAddModalComponent,
     EntrygroupCardComponent
   ],
@@ -27,19 +25,14 @@ import {EntrygroupCardComponent} from "./entrygroup-card/entrygroup-card.compone
 })
 export class EntryScreenComponent implements OnInit, OnDestroy {
 
-  currentYear: number = new Date().getFullYear();
-  currentMonth: number = new Date().getMonth() + 1;
-  wholeMonthString = this.currentYear.toString() +
-    (this.currentMonth > 9 ? '' : '0') + this.currentMonth.toString();
   months: MonthDto[] | undefined;
-
   private monthSubscription?: Subscription;
 
   constructor(
-    private axiosService: AxiosService,
-    private authService: AuthService,
+    private readonly axiosService: AxiosService,
+    private readonly authService: AuthService,
     protected utilService: UtilService,
-    private monthProviderService: MonthProviderService,
+    private readonly monthProviderService: MonthProviderService,
   ) {
   }
 
@@ -47,14 +40,11 @@ export class EntryScreenComponent implements OnInit, OnDestroy {
     this.monthSubscription = this.monthProviderService.months
       .subscribe(months => this.months = months);
 
-    if (this.monthProviderService.hasMonth(this.wholeMonthString)) {
+    if (this.monthProviderService.hasMonth(new Date())) {
       return;
     }
 
-    this.fetchMonth(
-      this.currentYear.toString(),
-      (this.currentMonth > 9 ? '' : '0') + this.currentMonth.toString()
-    );
+    this.fetchMonth(new Date());
   }
 
   ngOnDestroy() {
@@ -62,10 +52,10 @@ export class EntryScreenComponent implements OnInit, OnDestroy {
       this.monthSubscription.unsubscribe();
   }
 
-  fetchMonth(year: string, month: string) {
+  fetchMonth(date: Date) {
     this.axiosService.request(
       "GET",
-      "/entrygroup/" + year + month,
+      "/entrygroup/" + date.toISOString(),
       ""
     ).then(response => {
       return response.data;
@@ -76,7 +66,7 @@ export class EntryScreenComponent implements OnInit, OnDestroy {
       if (error.response.status === 401)
         this.authService.deleteJwtToken();
       else if (error.response.status === 404) {
-        this.monthProviderService.addMonth(new MonthDto(year + month));
+        this.monthProviderService.addMonth(new MonthDto(date));
       }
     });
   }
