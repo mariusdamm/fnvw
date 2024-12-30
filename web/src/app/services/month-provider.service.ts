@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable} from "rxjs";
 import {MonthDto} from "../dtos/month-dto";
-import {EntrygroupDto} from "../dtos/entrygroup-dto";
 import {EntryDto} from "../dtos/entry-dto";
 
 @Injectable({
@@ -9,7 +8,7 @@ import {EntryDto} from "../dtos/entry-dto";
 })
 export class MonthProviderService {
 
-  private _months = new BehaviorSubject<MonthDto[]>([]);
+  private readonly _months = new BehaviorSubject<MonthDto[]>([]);
 
   constructor() {
   }
@@ -39,18 +38,6 @@ export class MonthProviderService {
 
   getMonth(month: string): MonthDto | undefined {
     return this._months.getValue().find(m => m.month === month);
-  }
-
-  addGroup(group: EntrygroupDto) {
-    if (!this.hasMonth(group.month.toString()))
-      return;
-
-    let month = this.getMonth(group.month.toString());
-    if (month === undefined)
-      return;
-
-    group.isIntake ? month.intakeGroups.push(group) : month.spendingGroups.push(group);
-    this.updateMonth(month);
   }
 
   addEntryToGroup(entry: EntryDto, groupId: number) {

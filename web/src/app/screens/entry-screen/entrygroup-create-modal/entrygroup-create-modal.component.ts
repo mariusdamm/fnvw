@@ -3,7 +3,6 @@ import {UtilService} from "../../../services/util.service";
 import {AxiosService} from "../../../services/axios.service";
 import {AuthService} from "../../../services/auth.service";
 import {EntrygroupCreateDto} from "../../../dtos/entrygroup-create-dto";
-import {MonthProviderService} from "../../../services/month-provider.service";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 declare let bootstrap: any;
@@ -37,7 +36,6 @@ export class EntrygroupCreateModalComponent {
     private readonly utilService: UtilService,
     private readonly axiosService: AxiosService,
     private readonly authService: AuthService,
-    private readonly monthProviderService: MonthProviderService,
   ) {
   }
 
@@ -65,8 +63,6 @@ export class EntrygroupCreateModalComponent {
     }).then(group => {
       if (group === null)
         throw new Error('Group is null. An Error happened');
-
-      this.monthProviderService.addGroup(group);
 
       const bsCollapse = new bootstrap.Collapse('#postGroupSuccessCollapse_'
         + this.monthstring.toString() + this.isIntake, {});
