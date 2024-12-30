@@ -15,16 +15,15 @@
     </span>
 
     <div class="row rounded border-start border-5 border-end border-success mx-0">
-      <div class="d-flex justify-content-between align-items-center">
-        <div>
-          <h5 class="m-0 me-1 d-inline"><span class="badge text-bg-success">Einnahmen</span></h5>
-          <h5 class="m-0 d-inline"><span class="badge text-bg-success">
-          {{
-                  parseFloat((this.utilService.calcSumOfAllGroups(month.intakeGroups) / 100).toFixed(2))
-            }}€
-        </span></h5>
-        </div>
-        <app-entrygroup-create-modal [isIntake]="true"></app-entrygroup-create-modal>
+      <div>
+        <h5 class="m-0 me-1 d-inline">
+          <span class="badge text-bg-success">Einnahmen</span>
+        </h5>
+        <h5 class="m-0 d-inline">
+          <span
+            class="badge text-bg-success">{{ parseFloat((this.utilService.calcSumOfAllGroups(month.intakeGroups) / 100).toFixed(2)) }}
+            €</span>
+        </h5>
       </div>
       <app-entrygroup-card class="mt-2 col-sm-6 col-md-4 col-xl-3" *ngFor="let group of month.intakeGroups"
                            [group]="group"></app-entrygroup-card>
@@ -33,16 +32,15 @@
     <div class="mb-3"></div>
 
     <div class="row rounded border-start border-5 border-end border-danger mx-0">
-      <div class="d-flex justify-content-between align-items-center">
-        <div>
-          <h5 class="m-0 me-1 d-inline"><span class="badge text-bg-danger">Ausgaben</span></h5>
-          <h5 class="m-0 d-inline"><span class="badge text-bg-danger">
-          {{
-                  parseFloat((this.utilService.calcSumOfAllGroups(month.spendingGroups) / 100).toFixed(2))
-            }}€
-        </span></h5>
-        </div>
-        <app-entrygroup-create-modal [isIntake]="false"></app-entrygroup-create-modal>
+      <div>
+        <h5 class="m-0 me-1 d-inline">
+          <span class="badge text-bg-danger">Ausgaben</span>
+        </h5>
+        <h5 class="m-0 d-inline">
+          <span
+            class="badge text-bg-danger">{{ parseFloat((this.utilService.calcSumOfAllGroups(month.spendingGroups) / 100).toFixed(2)) }}
+            €</span>
+        </h5>
       </div>
       <app-entrygroup-card class="mt-2 col-sm-6 col-md-4 col-xl-3" *ngFor="let group of month.spendingGroups"
                            [group]="group"></app-entrygroup-card>
