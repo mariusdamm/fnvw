@@ -52,9 +52,10 @@ export class EntryScreenComponent implements OnInit, OnDestroy {
   }
 
   fetchMonth(date: Date) {
+    const formattedDate = date.toISOString().split('.')[0]; // Remove milliseconds and timezone
     this.axiosService.request(
       "GET",
-      "/entrygroup/" + date.toISOString(),
+      "/entrygroup/" + formattedDate,
       ""
     ).then(response => {
       return response.data;
