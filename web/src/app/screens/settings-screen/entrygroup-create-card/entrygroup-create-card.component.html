@@ -1,1 +1,19 @@
-<p>entrygroup-create-card works!</p>
+<div class="card border border-black">
+  <div class="card-header text-bg-black d-flex justify-content-between align-items-center">
+    <button class="btn btn-sm" type="button" data-bs-toggle="collapse" (click)="toggleIconRotate(this.collapseIcon)"
+            data-bs-target="#entrygroup-create-card-collapse">
+      <i #collapseIcon class="bi bi-caret-right-fill svg-unrotate"></i>
+    </button>
+    Gruppen
+    <app-entrygroup-create-modal></app-entrygroup-create-modal>
+  </div>
+  <div class="collapse" id="entrygroup-create-card-collapse">
+    <div class="card-body container-fluid">
+      <div *ngFor="let group of groups">
+        <span>{{ group.name }}</span>
+      </div>
+    </div>
+  </div>
+  <div class="card-footer">
+  </div>
+</div>
