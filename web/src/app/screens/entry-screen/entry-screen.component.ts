@@ -6,7 +6,6 @@ import {AuthService} from "../../services/auth.service";
 import {UtilService} from "../../services/util.service";
 import {Subscription} from "rxjs";
 import {MonthProviderService} from "../../services/month-provider.service";
-import {EntrygroupCreateModalComponent} from "./entrygroup-create-modal/entrygroup-create-modal.component";
 import {MonthAddModalComponent} from "./month-add-modal/month-add-modal.component";
 import {EntrygroupCardComponent} from "./entrygroup-card/entrygroup-card.component";
 
@@ -15,7 +14,6 @@ import {EntrygroupCardComponent} from "./entrygroup-card/entrygroup-card.compone
   standalone: true,
   imports: [
     NgForOf,
-    EntrygroupCreateModalComponent,
     MonthAddModalComponent,
     EntrygroupCardComponent
   ],
