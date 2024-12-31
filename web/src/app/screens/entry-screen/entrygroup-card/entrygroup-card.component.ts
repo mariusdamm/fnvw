@@ -3,6 +3,7 @@ import {EntrygroupDto} from "../../../dtos/entrygroup-dto";
 import {EntryCreateModalComponent} from "../entry-create-modal/entry-create-modal.component";
 import {UtilService} from "../../../services/util.service";
 import {NgForOf, NgIf} from "@angular/common";
+import {toggleIconRotate} from "../../../util"
 
 @Component({
   selector: 'app-entrygroup-card',
@@ -23,14 +24,5 @@ export class EntrygroupCardComponent {
   constructor(protected utilService: UtilService) {
   }
 
-  toggleIconRotate() {
-    if (this.collapseIcon.nativeElement.classList.contains('svg-rotate')){
-      this.collapseIcon.nativeElement.classList.remove('svg-rotate');
-      this.collapseIcon.nativeElement.classList.add('svg-unrotate');
-    }
-    else {
-      this.collapseIcon.nativeElement.classList.remove('svg-unrotate');
-      this.collapseIcon.nativeElement.classList.add('svg-rotate');
-    }
-  }
+  protected readonly toggleIconRotate = toggleIconRotate;
 }
