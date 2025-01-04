@@ -4,6 +4,7 @@ import {AxiosService} from "../../../services/axios.service";
 import {AuthService} from "../../../services/auth.service";
 import {EntrygroupCreateDto} from "../../../dtos/entrygroup-create-dto";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {GroupProviderService} from "../../../services/group-provider.service";
 
 declare let bootstrap: any;
 
@@ -25,6 +26,7 @@ export class EntrygroupCreateModalComponent {
     private readonly utilService: UtilService,
     private readonly axiosService: AxiosService,
     private readonly authService: AuthService,
+    private readonly groupProvider: GroupProviderService,
   ) {
   }
 
@@ -52,6 +54,7 @@ export class EntrygroupCreateModalComponent {
       if (group === null)
         throw new Error('Group is null. An Error happened');
 
+      this.groupProvider.addGroup(group);
       const bsCollapse = new bootstrap.Collapse('#postGroupSuccessCollapse', {});
       bsCollapse.show();
       setTimeout(() => bsCollapse.hide(), 3000);
