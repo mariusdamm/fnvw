@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import {EntrygroupCreateCardComponent} from "./entrygroup-create-card/entrygroup-create-card.component";
 import {EntrygroupDto} from "../../dtos/entrygroup-dto";
 import {GroupProviderService} from "../../services/group-provider.service";
@@ -13,7 +13,7 @@ import {Subscription} from "rxjs";
   templateUrl: './settings-screen.component.html',
   styleUrl: './settings-screen.component.css'
 })
-export class SettingsScreenComponent implements OnInit, OnDestroy {
+export class SettingsScreenComponent implements OnInit, OnDestroy, OnChanges {
   private groupSubscription?: Subscription;
   private groups: EntrygroupDto[] = [];
   protected intakeGroups: EntrygroupDto[] = [];
@@ -21,8 +21,16 @@ export class SettingsScreenComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.groupSubscription = this.groupProvider.groups
-      .subscribe(groups => this.groups = groups);
-    this.sortGroups();
+      .subscribe(groups => {
+        this.groups = groups;
+        this.sortGroups();
+      });
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['groups']) {
+      this.sortGroups();
+    }
   }
 
   ngOnDestroy() {
