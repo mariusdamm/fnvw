@@ -62,7 +62,8 @@ export class EntryCreateModalComponent {
 
       if (!this.entryGroup?.id)
         throw new Error('EntryGroupId passed by parent is undefined');
-
+      this.entryModalNameInput.nativeElement.value = '';
+      this.entryModalValueInput.nativeElement.value = '';
       this.monthProviderService.addEntryToGroup(entry, this.entryGroup.id);
       const bsCollapse = new bootstrap.Collapse('#postEntrySuccessCollapse_' + this.entryGroup?.id.toString(), {});
       bsCollapse.show();

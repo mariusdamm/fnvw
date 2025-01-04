@@ -53,7 +53,7 @@ export class EntrygroupCreateModalComponent {
     }).then(group => {
       if (group === null)
         throw new Error('Group is null. An Error happened');
-
+      this.entrygroupModalNameInput.nativeElement.value = '';
       this.groupProvider.addGroup(group);
       const bsCollapse = new bootstrap.Collapse('#postGroupSuccessCollapse_' + this.isIntake, {});
       bsCollapse.show();
