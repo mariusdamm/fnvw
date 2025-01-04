@@ -6,7 +6,7 @@
       <i #collapseIcon class="bi bi-caret-right-fill svg-unrotate"></i>
     </button>
     {{ isIntake ? 'Einnahmegruppen' : 'Ausgabegruppen' }}
-    <app-entrygroup-create-modal></app-entrygroup-create-modal>
+    <app-entrygroup-create-modal [isIntake]="isIntake"></app-entrygroup-create-modal>
   </div>
   <div class="collapse" [id]="'entrygroup-create-card-collapse_' + isIntake">
     <div class="card-body container-fluid">

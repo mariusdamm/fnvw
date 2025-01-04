@@ -1,4 +1,4 @@
-import {Component, ElementRef, ViewChild} from '@angular/core';
+import {Component, ElementRef, Input, ViewChild} from '@angular/core';
 import {UtilService} from "../../../services/util.service";
 import {AxiosService} from "../../../services/axios.service";
 import {AuthService} from "../../../services/auth.service";
@@ -18,12 +18,8 @@ declare let bootstrap: any;
   styleUrl: './entrygroup-create-modal.component.css'
 })
 export class EntrygroupCreateModalComponent {
-
+  @Input() isIntake!: boolean;
   @ViewChild('groupNameInput') entrygroupModalNameInput!: ElementRef<HTMLInputElement>;
-  @ViewChild('groupIntakeButton') intakeButton!: ElementRef<HTMLInputElement>;
-  @ViewChild('groupSpendingButton') spendingButton!: ElementRef<HTMLInputElement>;
-  @ViewChild('groupIntakeLabel') intakeLabel!: ElementRef<HTMLLabelElement>;
-  @ViewChild('groupSpendingLabel') spendingLabel!: ElementRef<HTMLLabelElement>;
 
   constructor(
     private readonly utilService: UtilService,
@@ -41,14 +37,10 @@ export class EntrygroupCreateModalComponent {
       this.utilService.highlightInvalidInput(this.entrygroupModalNameInput.nativeElement);
     }
 
-    let isIntake: boolean = true;
-    if (this.spendingButton.nativeElement.checked)
-      isIntake = false;
-
     if (groupName.trim() === '')
       return;
 
-    const group = new EntrygroupCreateDto(groupName, isIntake);
+    const group = new EntrygroupCreateDto(groupName, this.isIntake);
 
     this.axiosService.request(
       "POST",

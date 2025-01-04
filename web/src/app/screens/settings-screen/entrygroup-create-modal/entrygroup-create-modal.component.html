@@ -18,23 +18,10 @@
         </div>
 
         <div class="modal-body">
-
-          <div class="d-flex justify-content-center mb-2">
-            <div class="btn-group w-100" id="groupIntakeGroup" role="radiogroup">
-              <input #groupIntakeButton type="radio" class="btn-check" name="groupIntakeRadio"
-                     id="groupIntakeButton" autocomplete="off" [value]="true" checked>
-              <label #groupIntakeLabel for="groupIntakeButton" class="btn btn-outline-success">Einnahme</label>
-              <input #groupSpendingButton type="radio" class="btn-check" name="groupIntakeRadio"
-                     id="groupSpendingButton" autocomplete="off" [value]="false">
-              <label #groupSpendingLabel for="groupSpendingButton" class="btn btn-outline-danger">Ausgabe</label>
-            </div>
-          </div>
-
           <div class="form-floating mb-2">
             <input #groupNameInput type="text" class="form-control" id="groupNameInput" autocomplete="off">
             <label for="groupNameInput">Name</label>
           </div>
-
         </div>
 
         <div class="modal-footer">
