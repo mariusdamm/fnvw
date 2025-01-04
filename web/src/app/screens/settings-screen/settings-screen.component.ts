@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {EntrygroupCreateCardComponent} from "./entrygroup-create-card/entrygroup-create-card.component";
-import {AxiosService} from "../../services/axios.service";
-import {AuthService} from "../../services/auth.service";
 import {EntrygroupDto} from "../../dtos/entrygroup-dto";
+import {GroupProviderService} from "../../services/group-provider.service";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-settings-screen',
@@ -13,37 +13,26 @@ import {EntrygroupDto} from "../../dtos/entrygroup-dto";
   templateUrl: './settings-screen.component.html',
   styleUrl: './settings-screen.component.css'
 })
-export class SettingsScreenComponent implements OnInit {
+export class SettingsScreenComponent implements OnInit, OnDestroy {
+  private groupSubscription?: Subscription;
   private groups: EntrygroupDto[] = [];
   protected intakeGroups: EntrygroupDto[] = [];
   protected spendingGroups: EntrygroupDto[] = [];
 
   ngOnInit() {
-    this.fetchGroups()
+    this.groupSubscription = this.groupProvider.groups
+      .subscribe(groups => this.groups = groups);
+    this.sortGroups();
+  }
+
+  ngOnDestroy() {
+    if (this.groupSubscription)
+      this.groupSubscription.unsubscribe();
   }
 
   constructor(
-    private readonly axiosService: AxiosService,
-    private readonly authService: AuthService,
+    private readonly groupProvider: GroupProviderService,
   ) {
-  }
-
-  fetchGroups() {
-    this.axiosService.request(
-      "GET",
-      "/entrygroup",
-      ""
-    ).then(response => {
-      return response.data;
-    }).then(groups => {
-      if (groups == null)
-        return
-      this.groups = groups;
-      this.sortGroups();
-    }).catch(error => {
-      if (error.response.status === 401)
-        this.authService.deleteJwtToken();
-    });
   }
 
   sortGroups() {
