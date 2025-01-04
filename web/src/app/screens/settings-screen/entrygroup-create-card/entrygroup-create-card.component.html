@@ -1,19 +1,18 @@
-<div class="card border border-black">
-  <div class="card-header text-bg-black d-flex justify-content-between align-items-center">
+<div class="card border" [ngClass]="isIntake ? 'border-success' : 'border-danger'">
+  <div class="card-header d-flex justify-content-between align-items-center"
+       [ngClass]="isIntake ? 'text-bg-success' : 'text-bg-danger'">
     <button class="btn btn-sm" type="button" data-bs-toggle="collapse" (click)="toggleIconRotate(this.collapseIcon)"
-            data-bs-target="#entrygroup-create-card-collapse">
+            [attr.data-bs-target]="'#entrygroup-create-card-collapse_' + isIntake">
       <i #collapseIcon class="bi bi-caret-right-fill svg-unrotate"></i>
     </button>
-    Gruppen
+    {{ isIntake ? 'Einnahmegruppen' : 'Ausgabegruppen' }}
     <app-entrygroup-create-modal></app-entrygroup-create-modal>
   </div>
-  <div class="collapse" id="entrygroup-create-card-collapse">
+  <div class="collapse" [id]="'entrygroup-create-card-collapse_' + isIntake">
     <div class="card-body container-fluid">
       <div *ngFor="let group of groups">
         <span>{{ group.name }}</span>
       </div>
     </div>
-  </div>
-  <div class="card-footer">
   </div>
 </div>
