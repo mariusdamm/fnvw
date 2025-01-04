@@ -1,5 +1,8 @@
 <div class="container-fluid">
   <div class="row mx-0">
-    <app-entrygroup-create-card class="mt-2 col-sm-6 col-md-4 col-xl-3"></app-entrygroup-create-card>
+    <app-entrygroup-create-card [groups]="intakeGroups" [isIntake]="true" class="mt-2 col-sm-6 col-md-4 col-xl-3">
+    </app-entrygroup-create-card>
+    <app-entrygroup-create-card [groups]="spendingGroups" [isIntake]="false" class="mt-2 col-sm-6 col-md-4 col-xl-3">
+    </app-entrygroup-create-card>
   </div>
 </div>
