@@ -41,8 +41,11 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.loggedInSubscription = this.authService.isLoggedIn
-      .subscribe(isLoggedIn => this.isLoggedIn = isLoggedIn);
-    this.fetchGroups();
+      .subscribe(isLoggedIn => {
+        this.isLoggedIn = isLoggedIn;
+        if (isLoggedIn)
+          this.fetchGroups()
+      });
   }
 
   ngOnDestroy() {
