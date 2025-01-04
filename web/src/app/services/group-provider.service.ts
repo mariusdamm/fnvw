@@ -19,6 +19,10 @@ export class GroupProviderService {
     this._groups.next([...this._groups.getValue(), group]);
   }
 
+  addGroups(groups: EntrygroupDto[]){
+    this._groups.next([...this._groups.getValue(), ...groups]);
+  }
+
   updateMonth(group: EntrygroupDto): boolean {
     const index = this._groups.getValue().findIndex(g => g.id === group.id);
     if (index === -1)
