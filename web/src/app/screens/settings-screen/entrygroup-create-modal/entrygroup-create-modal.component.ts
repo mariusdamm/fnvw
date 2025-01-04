@@ -55,14 +55,14 @@ export class EntrygroupCreateModalComponent {
         throw new Error('Group is null. An Error happened');
 
       this.groupProvider.addGroup(group);
-      const bsCollapse = new bootstrap.Collapse('#postGroupSuccessCollapse', {});
+      const bsCollapse = new bootstrap.Collapse('#postGroupSuccessCollapse_' + this.isIntake, {});
       bsCollapse.show();
       setTimeout(() => bsCollapse.hide(), 3000);
     }).catch(error => {
       if (error.response.status === 401)
         this.authService.deleteJwtToken();
 
-      const bsCollapse = new bootstrap.Collapse('#postGroupDangerCollapse', {});
+      const bsCollapse = new bootstrap.Collapse('#postGroupDangerCollapse_' + this.isIntake, {});
       bsCollapse.show();
       setTimeout(() => bsCollapse.hide(), 3000);
     });

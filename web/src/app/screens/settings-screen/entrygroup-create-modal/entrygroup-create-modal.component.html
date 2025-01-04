@@ -1,38 +1,38 @@
 <button type="button" class="btn btn-outline-light btn-sm tooltipbox" data-bs-toggle="modal"
-        data-bs-target="#addGroupModal">
+        [attr.data-bs-target]="'#addGroupModal_' + isIntake">
   <span class="badge tooltiptext tooltiptext-left">Gruppe hinzufügen</span>
   <i class="bi bi-collection"></i>
 </button>
 
 
-<div class="modal fade" id="addGroupModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="addGroupModalLabel"
-     aria-hidden="true">
+<div class="modal fade" [id]="'addGroupModal_' + isIntake" data-bs-backdrop="static" tabindex="-1"
+     aria-labelledby="addGroupModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable">
     <div class="modal-content">
 
       <form (ngSubmit)="postEntrygroup($event)">
 
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="addGroupModalLabel">Gruppe erstellen</h1>
+          <h1 class="modal-title fs-5" [id]="'addGroupModalLabel_' + isIntake">Gruppe erstellen</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
 
         <div class="modal-body">
           <div class="form-floating mb-2">
-            <input #groupNameInput type="text" class="form-control" id="groupNameInput" autocomplete="off">
-            <label for="groupNameInput">Name</label>
+            <input #groupNameInput type="text" class="form-control" [id]="'groupNameInput_' + isIntake" autocomplete="off">
+            <label [for]="'groupNameInput_' + isIntake">Name</label>
           </div>
         </div>
 
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           <button type="submit" class="btn btn-black">Gruppe speichern</button>
-          <div class="collapse w-100" id="postGroupSuccessCollapse">
+          <div class="collapse w-100" [id]="'postGroupSuccessCollapse_' + isIntake">
             <div class="alert alert-success m-0" role="alert">
               Gruppe erfolgreich erstellt!
             </div>
           </div>
-          <div class="collapse w-100" id="postGroupDangerCollapse">
+          <div class="collapse w-100" [id]="'postGroupDangerCollapse_' + isIntake">
             <div class="alert alert-danger m-0" role="alert">
               Es ist etwas schiefgelaufen...
             </div>
