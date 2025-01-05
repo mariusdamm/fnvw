@@ -1,0 +1,47 @@
+<button type="button" class="btn btn-outline-light btn-sm tooltipbox" data-bs-toggle="modal"
+        [attr.data-bs-target]="'#addEntrygroupModal_' + isIntake">
+  <span class="badge tooltiptext tooltiptext-left">Gruppe zur Ansicht hinzufügen</span>
+  <i class="bi bi-collection"></i>
+</button>
+
+<div class="modal fade" [id]="'addEntrygroupModal_' + isIntake" data-bs-backdrop="static" tabindex="-1"
+     [attr.aria-labelledby]="'addEntrygroupModalLabel_' + isIntake" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <form (ngSubmit)="addEntrygroup($event)">
+
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" [id]="'addEntrygroupModalLabel_' + isIntake">
+            Gruppe zu {{ isIntake ? 'Einnahmen' : 'Ausgaben' }}hinzufügen
+          </h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body">
+          <div class="form-floating mb-2">
+            <select #addEntryGroupSelect class="form-select">
+              <option selected [value]="null">Gruppe auswählen</option>
+              <option *ngFor="let group of groups" [value]="group.id">{{ group.name }}</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-black">Gruppe hinzufügen</button>
+          <div class="collapse w-100" [id]="'addEntrygroupSuccessCollapse_' + isIntake">
+            <div class="alert alert-success m-0" role="alert">
+              Gruppe erfolgreich hinzugefügt!
+            </div>
+          </div>
+          <div class="collapse w-100" [id]="'addEntrygroupDangerCollapse_' + isIntake">
+            <div class="alert alert-danger m-0" role="alert">
+              Es ist etwas schiefgelaufen...
+            </div>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
