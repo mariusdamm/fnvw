@@ -1,7 +1,7 @@
 import {Component, ElementRef, Input, ViewChild} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {EntrygroupDto} from "../../../dtos/entrygroup-dto";
-import {NgForOf} from "@angular/common";
+import {NgClass, NgForOf} from "@angular/common";
 import {GroupProviderService} from "../../../services/group-provider.service";
 
 @Component({
@@ -10,7 +10,8 @@ import {GroupProviderService} from "../../../services/group-provider.service";
   imports: [
     FormsModule,
     ReactiveFormsModule,
-    NgForOf
+    NgForOf,
+    NgClass,
   ],
   templateUrl: './entrygroup-add-modal.component.html',
   styleUrl: './entrygroup-add-modal.component.css'
