@@ -8,6 +8,7 @@ import {Subscription} from "rxjs";
 import {MonthProviderService} from "../../services/month-provider.service";
 import {MonthAddModalComponent} from "./month-add-modal/month-add-modal.component";
 import {EntrygroupCardComponent} from "./entrygroup-card/entrygroup-card.component";
+import {EntrygroupAddModalComponent} from "./entrygroup-add-modal/entrygroup-add-modal.component";
 
 @Component({
   selector: 'app-entry-screen',
@@ -15,7 +16,8 @@ import {EntrygroupCardComponent} from "./entrygroup-card/entrygroup-card.compone
   imports: [
     NgForOf,
     MonthAddModalComponent,
-    EntrygroupCardComponent
+    EntrygroupCardComponent,
+    EntrygroupAddModalComponent
   ],
   templateUrl: './entry-screen.component.html',
   styleUrl: './entry-screen.component.css'
