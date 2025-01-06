@@ -9,6 +9,8 @@ import {MonthProviderService} from "../../services/month-provider.service";
 import {MonthAddModalComponent} from "./month-add-modal/month-add-modal.component";
 import {EntrygroupCardComponent} from "./entrygroup-card/entrygroup-card.component";
 import {EntrygroupAddModalComponent} from "./entrygroup-add-modal/entrygroup-add-modal.component";
+import {GroupProviderService} from "../../services/group-provider.service";
+import {EntrygroupDto} from "../../dtos/entrygroup-dto";
 
 @Component({
   selector: 'app-entry-screen',
@@ -24,20 +26,30 @@ import {EntrygroupAddModalComponent} from "./entrygroup-add-modal/entrygroup-add
 })
 export class EntryScreenComponent implements OnInit, OnDestroy {
 
-  months: MonthDto[] | undefined;
+  protected months: MonthDto[] | undefined;
+  protected intakeGroups: EntrygroupDto[] = [];
+  protected spendingGroups: EntrygroupDto[] = [];
   private monthSubscription?: Subscription;
+  private intakeGroupSubscription?: Subscription;
+  private spendingGroupSubscription?: Subscription;
+
 
   constructor(
     private readonly axiosService: AxiosService,
     private readonly authService: AuthService,
     protected utilService: UtilService,
     private readonly monthProviderService: MonthProviderService,
+    private readonly groupProvider: GroupProviderService,
   ) {
   }
 
   ngOnInit() {
     this.monthSubscription = this.monthProviderService.months
       .subscribe(months => this.months = months);
+    this.intakeGroupSubscription = this.groupProvider.intakeGroups
+      .subscribe(g => this.intakeGroups = g);
+    this.spendingGroupSubscription = this.groupProvider.spendingGroups
+      .subscribe(g => this.spendingGroups = g);
 
     if (this.monthProviderService.hasMonth(new Date())) {
       return;
@@ -49,6 +61,10 @@ export class EntryScreenComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     if (this.monthSubscription)
       this.monthSubscription.unsubscribe();
+    if (this.intakeGroupSubscription)
+      this.intakeGroupSubscription.unsubscribe();
+    if (this.spendingGroupSubscription)
+      this.spendingGroupSubscription.unsubscribe();
   }
 
   fetchMonth(date: Date) {
