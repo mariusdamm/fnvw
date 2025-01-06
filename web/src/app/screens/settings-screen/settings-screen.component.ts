@@ -1,4 +1,4 @@
-import {Component, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {EntrygroupCreateCardComponent} from "./entrygroup-create-card/entrygroup-create-card.component";
 import {EntrygroupDto} from "../../dtos/entrygroup-dto";
 import {GroupProviderService} from "../../services/group-provider.service";
@@ -13,45 +13,28 @@ import {Subscription} from "rxjs";
   templateUrl: './settings-screen.component.html',
   styleUrl: './settings-screen.component.css'
 })
-export class SettingsScreenComponent implements OnInit, OnDestroy, OnChanges {
-  private groupSubscription?: Subscription;
-  private groups: EntrygroupDto[] = [];
+export class SettingsScreenComponent implements OnInit, OnDestroy {
+  private intakeGroupSubscription?: Subscription;
+  private spendingGroupSubscription?: Subscription;
   protected intakeGroups: EntrygroupDto[] = [];
   protected spendingGroups: EntrygroupDto[] = [];
 
   ngOnInit() {
-    this.groupSubscription = this.groupProvider.groups
-      .subscribe(groups => {
-        this.groups = groups;
-        this.sortGroups();
-      });
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['groups']) {
-      this.sortGroups();
-    }
+    this.intakeGroupSubscription = this.groupProvider.intakeGroups
+      .subscribe(g => this.intakeGroups = g);
+    this.spendingGroupSubscription= this.groupProvider.spendingGroups
+      .subscribe(g => this.spendingGroups = g);
   }
 
   ngOnDestroy() {
-    if (this.groupSubscription)
-      this.groupSubscription.unsubscribe();
+    if (this.intakeGroupSubscription)
+      this.intakeGroupSubscription.unsubscribe();
+    if (this.spendingGroupSubscription)
+      this.spendingGroupSubscription.unsubscribe();
   }
 
   constructor(
     private readonly groupProvider: GroupProviderService,
   ) {
-  }
-
-  sortGroups() {
-    this.intakeGroups = [];
-    this.spendingGroups = [];
-
-    this.groups.forEach(group => {
-      if (group.isIntake)
-        this.intakeGroups.push(group);
-      else
-        this.spendingGroups.push(group);
-    });
   }
 }
