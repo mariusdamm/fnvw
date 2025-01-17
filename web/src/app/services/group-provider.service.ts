@@ -43,6 +43,7 @@ export class GroupProviderService {
     let groups = this._groups.getValue();
     groups.splice(index, 1, group);
     this._groups.next([...groups]);
+    this.sortGroups()
     return true;
   }
 
